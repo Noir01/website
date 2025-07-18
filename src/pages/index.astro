@@ -9,7 +9,7 @@ import Card from '../components/Card.astro';
     <div class="profile">
       <div class="left">
         <img class="avatar" src="/android-chrome-192x192.png" alt="Aniruddh" />
-        <div class="widget" />
+        <div class="widget spotify-widget" />
         <div class="widget" />
       </div>
       <div class="info">
@@ -57,6 +57,72 @@ import Card from '../components/Card.astro';
         border-radius: 4px;
       }
 
+      .spotify-widget {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.2rem;
+        min-height: 24px;
+        height: auto;
+        overflow: hidden;
+      }
+
+      .spotify-widget * {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .spotify-widget img {
+        width: 20px !important;
+        height: 20px !important;
+        max-width: 20px !important;
+        max-height: 20px !important;
+        object-fit: cover !important;
+        border-radius: 2px !important;
+        flex-shrink: 0 !important;
+        display: block !important;
+      }
+
+      .spotify-widget .info {
+        flex: 1;
+        margin-right: 0.25rem;
+        overflow: hidden;
+      }
+
+      .spotify-widget .song {
+        font-size: 0.65rem;
+        color: inherit;
+        text-decoration: none;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .spotify-widget hr {
+        border: none;
+        border-top: 1px solid #555;
+        margin: 2px 0;
+      }
+
+      .spotify-widget .meta {
+        font-size: 0.55rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .spotify-widget .art {
+        width: 20px !important;
+        height: 20px !important;
+        max-width: 20px;
+        max-height: 20px;
+        object-fit: cover;
+        border-radius: 2px;
+        flex-shrink: 0;
+        display: block;
+      }
+
       .name-heading {
         display: flex;
         gap: 0.1rem;
@@ -91,6 +157,50 @@ import Card from '../components/Card.astro';
         letter.addEventListener('pointerdown', jump);
         letter.addEventListener('pointerenter', jump);
       });
+    </script>
+
+    <script type="module">
+      const widget = document.querySelector('.spotify-widget');
+      if (widget) {
+        fetch('https://spotify.noir.ac/')
+          .then(r => r.json())
+          .then(data => {
+            if (!data.playing) {
+              widget.textContent = 'Not Listening to anything';
+              return;
+            }
+            const info = document.createElement('div');
+            info.className = 'info';
+            const songLink = document.createElement('a');
+            songLink.className = 'song';
+            songLink.href = data.url;
+            songLink.target = '_blank';
+            songLink.rel = 'noopener noreferrer';
+            songLink.textContent = data.song;
+            const hr = document.createElement('hr');
+            const meta = document.createElement('div');
+            meta.className = 'meta';
+            meta.textContent = `${data.artist} | ${data.album}`;
+            info.append(songLink, hr, meta);
+            const art = document.createElement('img');
+            art.className = 'art';
+            art.src = data.album_art;
+            art.alt = 'Album Art';
+            // Force the image dimensions directly
+            art.style.width = '20px';
+            art.style.height = '20px';
+            art.style.maxWidth = '20px';
+            art.style.maxHeight = '20px';
+            art.style.objectFit = 'cover';
+            art.style.borderRadius = '2px';
+            art.style.flexShrink = '0';
+            art.style.display = 'block';
+            widget.replaceChildren(info, art);
+          })
+          .catch(() => {
+            widget.textContent = 'Not Listening to anything';
+          });
+      }
     </script>
   </Card>
 </Layout>
