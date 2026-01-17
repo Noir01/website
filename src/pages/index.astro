@@ -3,8 +3,6 @@ import { getCollection } from 'astro:content';
 // Component Imports
 import Grid from '../components/Grid.astro';
 import Hero from '../components/Hero.astro';
-import Icon from '../components/Icon.astro';
-import Pill from '../components/Pill.astro';
 import PortfolioPreview from '../components/PortfolioPreview.astro';
 // Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -25,13 +23,7 @@ const projects = (await getCollection('work'))
 					title="Hello, my name is Aniruddh Srivastava"
 					tagline="I am a Creative Developer who is currently based in Portland, Oregon."
 					align="start"
-				>
-					<div class="roles">
-						<Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
-						<Pill><Icon icon="microphone-stage" size="1.33em" /> Speaker</Pill>
-						<Pill><Icon icon="pencil-line" size="1.33em" /> Writer</Pill>
-					</div>
-				</Hero>
+				/>
 
 				<img
 					alt="Aniruddh Srivastava smiling in a red plaid shirt and tortoise shell glasses"
@@ -85,10 +77,6 @@ const projects = (await getCollection('work'))
 		gap: 2rem;
 	}
 
-	.roles {
-		display: none;
-	}
-
 	.hero img {
 		aspect-ratio: 5 / 4;
 		object-fit: cover;
@@ -103,12 +91,6 @@ const projects = (await getCollection('work'))
 			grid-template-columns: 6fr 4fr;
 			padding-inline: 2.5rem;
 			gap: 3.75rem;
-		}
-
-		.roles {
-			margin-top: 0.5rem;
-			display: flex;
-			gap: 0.5rem;
 		}
 
 		.hero img {
