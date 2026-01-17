@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import ContactCTA from '../../components/ContactCTA.astro';
+import Hero from '../../components/Hero.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true;
+})).sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+---
+
+<BaseLayout
+	title="Blog | Aniruddh Srivastava"
+	description="Thoughts and writings by Aniruddh Srivastava"
+>
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<Hero
+				title="Blog"
+				tagline="Thoughts, tutorials, and insights"
+				align="start"
+			/>
+			<ul class="posts">
+				{posts.map((post) => (
+					<li class="post-item">
+						<a href={`/blog/${post.id}/`}>
+							<h3>{post.data.title}</h3>
+							<p class="date">
+								{post.data.publishDate.toLocaleDateString('en-US', {
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric'
+								})}
+							</p>
+							<p class="description">{post.data.description}</p>
+						</a>
+					</li>
+				))}
+			</ul>
+		</main>
+		<ContactCTA />
+	</div>
+</BaseLayout>
+
+<style>
+	.posts {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.post-item a {
+		display: block;
+		padding: 1.5rem;
+		background: var(--gradient-subtle);
+		border: 1px solid var(--gray-800);
+		border-radius: 0.75rem;
+		text-decoration: none;
+		transition: box-shadow var(--theme-transition);
+	}
+
+	.post-item a:hover {
+		box-shadow: var(--shadow-md);
+	}
+
+	.post-item h3 {
+		font-size: var(--text-xl);
+		color: var(--gray-0);
+		margin-bottom: 0.5rem;
+	}
+
+	.date {
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+		margin-bottom: 0.5rem;
+	}
+
+	.description {
+		color: var(--gray-300);
+	}
+</style>
