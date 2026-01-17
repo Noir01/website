@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import ContactCTA from '../../components/ContactCTA.astro';
 import Hero from '../../components/Hero.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
@@ -40,7 +39,6 @@ const posts = (await getCollection('blog', ({ data }) => {
 				))}
 			</ul>
 		</main>
-		<ContactCTA />
 	</div>
 </BaseLayout>
 
