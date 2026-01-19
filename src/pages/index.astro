@@ -1,200 +1,141 @@
 ---
-import { getCollection } from 'astro:content';
-// Component Imports
-import Grid from '../components/Grid.astro';
-import Hero from '../components/Hero.astro';
-import PortfolioPreview from '../components/PortfolioPreview.astro';
-// Layout import — provides basic page elements: <head>, <nav>, <footer> etc.
-import BaseLayout from '../layouts/BaseLayout.astro';
-
-// Content Fetching: List all work projects
-const projects = (await getCollection('work'))
-	.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+import LandingLayout from '../layouts/LandingLayout.astro';
+import StrokeDrawName from '../components/StrokeDrawName.astro';
+import Socials from '../components/Socials.astro';
 ---
 
-<BaseLayout>
-	<div class="stack gap-20 lg:gap-48">
-		<div class="wrapper stack gap-8 lg:gap-20">
-			<header class="hero">
-				<Hero
-					title="Hello, my name is Aniruddh Srivastava"
-					tagline="I am a Creative Developer who is currently based in Portland, Oregon."
-					align="start"
-				/>
+<LandingLayout>
+	<main class="landing">
+		<div class="content">
+			<StrokeDrawName firstName="ANIRUDDH" lastName="SRIVASTAVA" />
 
-				<!-- To add a hero image, uncomment the following:
-				<img
-					alt="Your description here"
-					width="480"
-					height="620"
-					src="/assets/your-image.jpg"
-				/>
-				-->
-			</header>
+			<div class="info">
+				<p class="role">Software Engineer</p>
+				<!-- <p class="location">Portland, Oregon</p> -->
+			</div>
+
+			<p class="tagline">
+				Learning something new every day and building useful things along the way.
+			</p>
+
+			<nav class="page-links">
+				<a href="/blog/" class="page-link">Blog</a>
+				<a href="/projects/" class="page-link">Projects</a>
+				<a href="/gallery/" class="page-link">Gallery</a>
+			</nav>
+
+			<Socials />
 		</div>
-
-		<main class="wrapper stack gap-20 lg:gap-48">
-			<!-- About Section -->
-			<section class="section about-section">
-				<h2 class="section-title">About Me</h2>
-				<div class="about-content">
-					<p>
-						I'm a developer passionate about building things for the web.
-						Feel free to customize this section with your own background and interests.
-					</p>
-				</div>
-			</section>
-
-			<!-- Projects Section -->
-			<section class="section with-background">
-				<header class="section-header stack gap-2 lg:gap-4">
-					<h3>Projects</h3>
-					<p>A selection of my recent work.</p>
-				</header>
-
-				<div class="gallery">
-					<Grid variant="offset">
-						{
-							projects.map((project) => (
-								<li>
-									<PortfolioPreview project={project} />
-								</li>
-							))
-						}
-					</Grid>
-				</div>
-			</section>
-		</main>
-	</div>
-</BaseLayout>
+	</main>
+</LandingLayout>
 
 <style>
-	.hero {
+	.landing {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+	}
+
+	.content {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 2rem;
-	}
-
-	.hero img {
-		aspect-ratio: 5 / 4;
-		object-fit: cover;
-		object-position: top;
-		border-radius: 1.5rem;
-		box-shadow: var(--shadow-md);
-	}
-
-	@media (min-width: 50em) {
-		.hero {
-			display: grid;
-			grid-template-columns: 6fr 4fr;
-			padding-inline: 2.5rem;
-			gap: 3.75rem;
-		}
-
-		.hero img {
-			aspect-ratio: 3 / 4;
-			border-radius: 4.5rem;
-			object-fit: cover;
-		}
-	}
-
-	/* ====================================================== */
-
-	.section {
-		display: grid;
-		gap: 2rem;
-	}
-
-	.with-background {
-		position: relative;
-	}
-
-	.with-background::before {
-		--hero-bg: var(--bg-image-subtle-2);
-
-		content: '';
-		position: absolute;
-		pointer-events: none;
-		left: 50%;
-		width: 100vw;
-		aspect-ratio: calc(2.25 / var(--bg-scale));
-		top: 0;
-		transform: translateY(-75%) translateX(-50%);
-		background:
-			url('/assets/backgrounds/noise.png') top center/220px repeat,
-			var(--hero-bg) center center / var(--bg-gradient-size) no-repeat,
-			var(--gray-999);
-		background-blend-mode: overlay, normal, normal, normal;
-		mix-blend-mode: var(--bg-blend-mode);
-		z-index: -1;
-	}
-
-	.with-background.bg-variant::before {
-		--hero-bg: var(--bg-image-subtle-1);
-	}
-
-	.section-header {
-		justify-self: center;
 		text-align: center;
-		max-width: 50ch;
+		max-width: 700px;
+		animation: fadeIn 0.5s ease 2s both;
+	}
+
+	.info {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.role {
+		font-size: var(--text-xl);
+		color: var(--accent-regular);
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.location {
 		font-size: var(--text-md);
+		color: var(--gray-400);
+		margin: 0;
+	}
+
+	.tagline {
+		font-size: var(--text-lg);
 		color: var(--gray-300);
+		line-height: 1.6;
+		margin: 0;
+		max-width: 50ch;
 	}
 
-	.section-header h3 {
-		font-size: var(--text-2xl);
+	.page-links {
+		display: flex;
+		gap: 2rem;
+		flex-wrap: wrap;
+		justify-content: center;
 	}
 
-	@media (min-width: 50em) {
-		.section {
-			grid-template-columns: repeat(4, 1fr);
-			grid-template-areas: 'header header header header' 'gallery gallery gallery gallery';
-			gap: 5rem;
+	.page-link {
+		color: var(--gray-300);
+		text-decoration: none;
+		font-size: var(--text-md);
+		font-weight: 500;
+		padding: 0.5rem 1rem;
+		border-radius: 999rem;
+		transition:
+			color 0.2s ease,
+			background-color 0.2s ease;
+	}
+
+	.page-link:hover,
+	.page-link:focus {
+		color: var(--gray-0);
+		background-color: var(--gray-800);
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.content {
+			animation: none;
+		}
+	}
+
+	@media (max-width: 50em) {
+		.landing {
+			padding: 1.5rem;
 		}
 
-		.section-header {
-			grid-area: header;
+		.content {
+			gap: 1.5rem;
+		}
+
+		.role {
 			font-size: var(--text-lg);
 		}
 
-		.section-header h3 {
-			font-size: var(--text-4xl);
+		.tagline {
+			font-size: var(--text-base);
 		}
 
-		.gallery {
-			grid-area: gallery;
-		}
-	}
-
-	/* ====================================================== */
-
-	.about-section {
-		display: block;
-	}
-
-	.section-title {
-		font-size: var(--text-2xl);
-		color: var(--gray-0);
-		margin-bottom: 1rem;
-	}
-
-	.about-content {
-		font-size: var(--text-lg);
-		color: var(--gray-300);
-		max-width: 65ch;
-	}
-
-	.about-content p + p {
-		margin-top: 1rem;
-	}
-
-	@media (min-width: 50em) {
-		.section-title {
-			font-size: var(--text-4xl);
+		.page-links {
+			gap: 1rem;
 		}
 	}
 </style>

@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import type { iconPaths } from './IconPaths';
+
+interface SocialLink {
+	label: string;
+	href: string;
+	icon: keyof typeof iconPaths;
+}
+
+const socialLinks: SocialLink[] = [
+	{ label: 'GitHub', href: 'https://github.com/Noir01', icon: 'github-logo' },
+	{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/aniruddhsrivastava/', icon: 'linkedin-logo' },
+];
+---
+
+<div class="socials">
+	{socialLinks.map(({ label, href, icon }) => (
+		<a href={href} class="social-link" aria-label={label} target="_blank" rel="noopener noreferrer">
+			<Icon icon={icon} size="1.5em" />
+		</a>
+	))}
+</div>
+
+<style>
+	.socials {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+	}
+
+	.social-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem;
+		color: var(--gray-400);
+		text-decoration: none;
+		transition: color 0.2s ease, transform 0.2s ease;
+		border-radius: 0.5rem;
+	}
+
+	.social-link:hover,
+	.social-link:focus {
+		color: var(--accent-regular);
+		transform: translateY(-2px);
+	}
+
+	.social-link:focus-visible {
+		outline: 2px solid var(--accent-regular);
+		outline-offset: 2px;
+	}
+</style>
