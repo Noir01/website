@@ -20,12 +20,6 @@ import Socials from '../components/Socials.astro';
 				Learning something new every day and building useful things along the way.
 			</p>
 
-			<nav class="page-links">
-				<a href="/blog/" class="page-link">Blog</a>
-				<a href="/projects/" class="page-link">Projects</a>
-				<a href="/gallery/" class="page-link">Gallery</a>
-			</nav>
-
 			<Socials />
 		</div>
 	</main>
@@ -101,31 +95,6 @@ import Socials from '../components/Socials.astro';
 		max-width: 50ch;
 	}
 
-	.page-links {
-		display: flex;
-		gap: 2rem;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-
-	.page-link {
-		color: var(--gray-300);
-		text-decoration: none;
-		font-size: var(--text-md);
-		font-weight: 500;
-		padding: 0.5rem 1rem;
-		border-radius: 999rem;
-		transition:
-			color 0.2s ease,
-			background-color 0.2s ease;
-	}
-
-	.page-link:hover,
-	.page-link:focus {
-		color: var(--gray-0);
-		background-color: var(--gray-800);
-	}
-
 	@media (max-width: 50em) {
 		.first-name {
 			font-size: var(--text-3xl);
@@ -148,10 +117,6 @@ import Socials from '../components/Socials.astro';
 
 		.tagline {
 			font-size: var(--text-base);
-		}
-
-		.page-links {
-			gap: 1rem;
 		}
 	}
 </style>
