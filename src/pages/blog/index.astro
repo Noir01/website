@@ -48,36 +48,39 @@ const posts = (await getCollection('blog', ({ data }) => {
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+	}
+
+	.post-item {
+		border-top: 1px solid var(--gray-800);
 	}
 
 	.post-item a {
 		display: block;
-		padding: 1.5rem;
-		background: var(--gradient-subtle);
-		border: 1px solid var(--gray-800);
-		border-radius: 0.75rem;
+		padding: 1.75rem 0;
 		text-decoration: none;
-		transition: box-shadow var(--theme-transition);
+		transition: color var(--theme-transition);
 	}
 
-	.post-item a:hover {
-		box-shadow: var(--shadow-md);
+	.post-item a:hover h3 {
+		color: var(--gray-0);
 	}
 
 	.post-item h3 {
 		font-size: var(--text-xl);
-		color: var(--gray-0);
-		margin-bottom: 0.5rem;
+		font-weight: 500;
+		color: var(--gray-100);
+		margin-bottom: 0.4rem;
+		transition: color var(--theme-transition);
 	}
 
 	.date {
 		font-size: var(--text-sm);
-		color: var(--gray-400);
-		margin-bottom: 0.5rem;
+		color: var(--gray-500);
+		margin-bottom: 0.6rem;
 	}
 
 	.description {
-		color: var(--gray-300);
+		color: var(--gray-400);
+		font-size: var(--text-base);
 	}
 </style>

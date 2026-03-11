@@ -1,26 +1,26 @@
 ---
 import LandingLayout from '../layouts/LandingLayout.astro';
-import Socials from '../components/Socials.astro';
+import Icon from '../components/Icon.astro';
 ---
 
 <LandingLayout>
 	<main class="landing">
 		<div class="content">
-			<div class="name-block">
-				<h1 class="first-name">Aniruddh</h1>
-				<h1 class="last-name">Srivastava</h1>
-			</div>
-
-			<div class="info">
-				<p class="role">Software Engineer</p>
-				<!-- <p class="location">Portland, Oregon</p> -->
-			</div>
+			<h1 class="name">Aniruddh Srivastava</h1>
+			<p class="role">Software Engineer</p>
 
 			<p class="tagline">
 				Learning something new every day and building useful things along the way.
 			</p>
 
-			<Socials />
+			<div class="socials">
+				<a href="https://github.com/Noir01" class="social-link" aria-label="GitHub">
+					<Icon icon="github-logo" size="1.4em" />
+				</a>
+				<a href="https://www.linkedin.com/in/aniruddh-srivastava/" class="social-link" aria-label="LinkedIn">
+					<Icon icon="linkedin-logo" size="1.4em" />
+				</a>
+			</div>
 		</div>
 	</main>
 </LandingLayout>
@@ -30,93 +30,67 @@ import Socials from '../components/Socials.astro';
 		flex: 1;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		padding: 2rem;
+		padding: 0 max(5vw, 3rem);
 	}
 
 	.content {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
-		text-align: center;
+		align-items: flex-start;
 		max-width: 700px;
 	}
 
-	.name-block {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.25rem;
-	}
-
-	.first-name,
-	.last-name {
+	.name {
 		font-family: var(--font-brand);
-		font-weight: 700;
-		margin: 0;
+		font-weight: 500;
+		font-size: clamp(2.5rem, 7vw, 5rem);
+		line-height: 1.0;
 		color: var(--gray-0);
-		line-height: 1.1;
-	}
-
-	.first-name {
-		font-size: var(--text-4xl);
-	}
-
-	.last-name {
-		font-size: var(--text-3xl);
-		color: var(--gray-300);
-	}
-
-	.info {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
+		margin: 0 0 0.75rem;
 	}
 
 	.role {
-		font-size: var(--text-xl);
-		color: var(--accent-regular);
-		font-weight: 600;
-		margin: 0;
-	}
-
-	.location {
+		font-family: var(--font-body);
 		font-size: var(--text-md);
 		color: var(--gray-400);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
 		margin: 0;
 	}
 
 	.tagline {
-		font-size: var(--text-lg);
+		font-size: var(--text-md);
 		color: var(--gray-300);
-		line-height: 1.6;
-		margin: 0;
-		max-width: 50ch;
+		max-width: 38ch;
+		line-height: 1.7;
+		margin: 2.5rem 0 0;
+	}
+
+	.socials {
+		display: flex;
+		gap: 0.25rem;
+		margin-top: 2.5rem;
+	}
+
+	.social-link {
+		display: flex;
+		padding: 0.4rem;
+		color: var(--gray-400);
+		text-decoration: none;
+		transition: color var(--theme-transition);
+	}
+
+	.social-link:hover {
+		color: var(--gray-0);
 	}
 
 	@media (max-width: 50em) {
-		.first-name {
-			font-size: var(--text-3xl);
-		}
-
-		.last-name {
-			font-size: var(--text-2xl);
-		}
 		.landing {
-			padding: 1.5rem;
+			padding: 0 1.5rem;
 		}
 
-		.content {
-			gap: 1.5rem;
-		}
-
-		.role {
-			font-size: var(--text-lg);
-		}
-
-		.tagline {
-			font-size: var(--text-base);
+		.name {
+			font-size: clamp(2rem, 10vw, 3rem);
 		}
 	}
 </style>

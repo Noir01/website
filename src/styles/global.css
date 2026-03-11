@@ -1,48 +1,34 @@
 /* Global variables */
 :root {
-	/* Colors */
-	--gray-0: #090b11;
-	--gray-50: #141925;
-	--gray-100: #283044;
-	--gray-200: #3d4663;
-	--gray-300: #505d84;
-	--gray-400: #6474a2;
-	--gray-500: #8490b5;
-	--gray-600: #a3acc8;
-	--gray-700: #c3cadb;
-	--gray-800: #e3e6ee;
-	--gray-900: #f3f4f7;
-	--gray-999-basis: 0, 0%, 100%;
+	/* Colors — light mode (inverted warm palette) */
+	--gray-0: #0c0c0b;
+	--gray-50: #161614;
+	--gray-100: #202020;
+	--gray-200: #2c2c2a;
+	--gray-300: #3c3c3a;
+	--gray-400: #686860;
+	--gray-500: #8a8a82;
+	--gray-600: #aaaaa0;
+	--gray-700: #c8c8be;
+	--gray-800: #e6e3da;
+	--gray-900: #f0ede4;
+	--gray-999-basis: 40, 43%, 97%;
 	--gray-999_40: hsla(var(--gray-999-basis), 0.4);
-	--gray-999: #ffffff;
+	--gray-999: #f8f5ee;
 
-	--accent-light: #c561f6;
-	--accent-regular: #7611a6;
-	--accent-dark: #1c0056;
-	--accent-overlay: hsla(280, 89%, 67%, 0.33);
-	--accent-subtle-overlay: var(--accent-overlay);
+	--accent-regular: #c9a96e;
+	--accent-light: #e8d0a0;
+	--accent-dark: #8b7045;
+	--accent-overlay: rgba(201, 169, 110, 0.12);
+	--accent-subtle-overlay: rgba(201, 169, 110, 0.08);
 	--accent-text-over: var(--gray-999);
 
 	--link-color: var(--accent-regular);
 
 	/* Gradients */
-	--gradient-stop-1: var(--accent-light);
-	--gradient-stop-2: var(--accent-regular);
-	--gradient-stop-3: var(--accent-dark);
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
-	--gradient-accent: linear-gradient(
-		150deg,
-		var(--gradient-stop-1),
-		var(--gradient-stop-2),
-		var(--gradient-stop-3)
-	);
-	--gradient-accent-orange: linear-gradient(
-		150deg,
-		#ca7879,
-		var(--accent-regular),
-		var(--accent-dark)
-	);
-	--gradient-stroke: linear-gradient(180deg, var(--gray-900), var(--gray-700));
+	--gradient-accent: linear-gradient(150deg, var(--accent-light), var(--accent-regular), var(--accent-dark));
+	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
 
 	/* Shadows */
 	--shadow-sm:
@@ -67,48 +53,38 @@
 	--text-5xl: 4.5rem;
 
 	/* Fonts */
-	--font-system:
-		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-		"Open Sans", "Helvetica Neue", sans-serif;
-	--font-body: "Public Sans", var(--font-system);
-	--font-brand: Rubik, var(--font-system);
+	--font-body: 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+	--font-brand: 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 
 	/* Transitions */
 	--theme-transition: 0.2s ease-in-out;
 }
 
 :root.theme-dark {
-	--gray-0: #ffffff;
-	--gray-50: #f3f4f7;
-	--gray-100: #e3e6ee;
-	--gray-200: #c3cadb;
-	--gray-300: #a3acc8;
-	--gray-400: #8490b5;
-	--gray-500: #6474a2;
-	--gray-600: #505d84;
-	--gray-700: #3d4663;
-	--gray-800: #283044;
-	--gray-900: #141925;
-	--gray-999-basis: 225, 31%, 5%;
-	--gray-999: #090b11;
+	--gray-0: #f8f5ee;
+	--gray-50: #f0ede4;
+	--gray-100: #e6e3da;
+	--gray-200: #c8c8be;
+	--gray-300: #aaaaa0;
+	--gray-400: #8a8a82;
+	--gray-500: #686860;
+	--gray-600: #3c3c3a;
+	--gray-700: #2c2c2a;
+	--gray-800: #202020;
+	--gray-900: #161614;
+	--gray-999-basis: 40, 18%, 5%;
+	--gray-999: #0c0c0b;
 
-	--accent-light: #1c0056;
-	--accent-regular: #7611a6;
-	--accent-dark: #c561f6;
-	--accent-overlay: hsla(280, 89%, 67%, 0.33);
-	--accent-subtle-overlay: hsla(281, 81%, 36%, 0.33);
-	--accent-text-over: var(--gray-0);
+	--accent-regular: #c9a96e;
+	--accent-light: #8b7045;
+	--accent-dark: #e8d0a0;
+	--accent-overlay: rgba(201, 169, 110, 0.12);
+	--accent-subtle-overlay: rgba(201, 169, 110, 0.08);
+	--accent-text-over: var(--gray-999);
 
-	--link-color: var(--accent-dark);
+	--link-color: var(--accent-regular);
 
-	--gradient-stop-1: #4c11c6;
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
-	--gradient-accent-orange: linear-gradient(
-		150deg,
-		#ca7879,
-		var(--accent-regular),
-		var(--accent-light)
-	);
 	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
 
 	--shadow-sm:
@@ -134,6 +110,7 @@ body {
 	font-family: var(--font-body);
 	-webkit-font-smoothing: antialiased;
 	line-height: 1.5;
+	font-variant-ligatures: common-ligatures;
 }
 
 *,
@@ -159,7 +136,7 @@ h4,
 h5 {
 	line-height: 1.1;
 	font-family: var(--font-brand);
-	font-weight: 600;
+	font-weight: 500;
 	color: var(--gray-100);
 }
 
