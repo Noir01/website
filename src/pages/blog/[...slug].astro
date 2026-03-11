@@ -1,17 +1,17 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { type CollectionEntry, getCollection, render } from "astro:content";
 
-import Hero from '../../components/Hero.astro';
-import Icon from '../../components/Icon.astro';
-import Pill from '../../components/Pill.astro';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from "../../components/Hero.astro";
+import Icon from "../../components/Icon.astro";
+import Pill from "../../components/Pill.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 interface Props {
-	entry: CollectionEntry<'blog'>;
+	entry: CollectionEntry<"blog">;
 }
 
 export async function getStaticPaths() {
-	const blog = await getCollection('blog');
+	const blog = await getCollection("blog");
 	return blog.map((entry) => ({
 		params: { slug: entry.id },
 		props: { entry },
@@ -27,20 +27,32 @@ const { Content } = await render(entry);
 		<div class="stack gap-15">
 			<header>
 				<div class="wrapper stack gap-2">
-					<a class="back-link" href="/blog/"><Icon icon="arrow-left" /> Blog</a>
+					<a class="back-link" href="/blog/"
+						><Icon icon="arrow-left" /> Blog</a
+					>
 					<Hero title={entry.data.title} align="start">
 						<div class="details">
-							{entry.data.tags && entry.data.tags.length > 0 && (
-								<div class="tags">
-									{entry.data.tags.map((t) => <Pill>{t}</Pill>)}
-								</div>
-							)}
+							{
+								entry.data.tags &&
+									entry.data.tags.length > 0 && (
+										<div class="tags">
+											{entry.data.tags.map((t) => (
+												<Pill>{t}</Pill>
+											))}
+										</div>
+									)
+							}
 							<p class="date">
-								{entry.data.publishDate.toLocaleDateString('en-US', {
-									year: 'numeric',
-									month: 'long',
-									day: 'numeric'
-								})}
+								{
+									entry.data.publishDate.toLocaleDateString(
+										"en-US",
+										{
+											year: "numeric",
+											month: "long",
+											day: "numeric",
+										},
+									)
+								}
 							</p>
 						</div>
 					</Hero>

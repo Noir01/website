@@ -1,13 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
-import Hero from '../../components/Hero.astro';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import Hero from "../../components/Hero.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const posts = (await getCollection('blog', ({ data }) => {
-	return import.meta.env.PROD ? data.draft !== true : true;
-})).sort(
-	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
-);
+const posts = (
+	await getCollection("blog", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	})
+).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 ---
 
 <BaseLayout
@@ -22,21 +22,28 @@ const posts = (await getCollection('blog', ({ data }) => {
 				align="start"
 			/>
 			<ul class="posts">
-				{posts.map((post) => (
-					<li class="post-item">
-						<a href={`/blog/${post.id}/`}>
-							<h3>{post.data.title}</h3>
-							<p class="date">
-								{post.data.publishDate.toLocaleDateString('en-US', {
-									year: 'numeric',
-									month: 'long',
-									day: 'numeric'
-								})}
-							</p>
-							<p class="description">{post.data.description}</p>
-						</a>
-					</li>
-				))}
+				{
+					posts.map((post) => (
+						<li class="post-item">
+							<a href={`/blog/${post.id}/`}>
+								<h3>{post.data.title}</h3>
+								<p class="date">
+									{post.data.publishDate.toLocaleDateString(
+										"en-US",
+										{
+											year: "numeric",
+											month: "long",
+											day: "numeric",
+										},
+									)}
+								</p>
+								<p class="description">
+									{post.data.description}
+								</p>
+							</a>
+						</li>
+					))
+				}
 			</ul>
 		</main>
 	</div>

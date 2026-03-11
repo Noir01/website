@@ -1,6 +1,6 @@
 ---
-import MainHead from '../components/MainHead.astro';
-import Nav from '../components/Nav.astro';
+import MainHead from "../components/MainHead.astro";
+import Nav from "../components/Nav.astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 
 interface Props {
@@ -22,7 +22,9 @@ const { title, description } = Astro.props;
 		</div>
 
 		<script>
-			addEventListener('load', () => document.documentElement.classList.add('loaded'));
+			addEventListener("load", () =>
+				document.documentElement.classList.add("loaded"),
+			);
 		</script>
 
 		<style>

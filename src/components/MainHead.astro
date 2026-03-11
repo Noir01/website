@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
 	title?: string | undefined;
@@ -7,8 +7,8 @@ interface Props {
 }
 
 const {
-	title = 'Aniruddh Srivastava: Personal Site',
-	description = 'The personal site of Aniruddh Srivastava',
+	title = "Aniruddh Srivastava: Personal Site",
+	description = "The personal site of Aniruddh Srivastava",
 } = Astro.props;
 ---
 
@@ -27,7 +27,7 @@ const {
 />
 <script is:inline>
 	// Theme toggle disabled - hardcoded to dark mode
-	document.documentElement.classList.add('theme-dark');
+	document.documentElement.classList.add("theme-dark");
 
 	/* Original theme preference code:
 	const getThemePreference = () => {

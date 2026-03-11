@@ -1,29 +1,37 @@
 ---
-import Icon from './Icon.astro';
-import type { iconPaths } from './IconPaths';
-import { SITE_TITLE } from '../consts';
+import Icon from "./Icon.astro";
+import type { iconPaths } from "./IconPaths";
+import { SITE_TITLE } from "../consts";
 // import ThemeToggle from './ThemeToggle.astro';
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
-	{ label: 'Blog', href: '/blog/' },
-	{ label: 'Projects', href: '/projects/' },
-	{ label: 'Gallery', href: '/gallery/' },
+	{ label: "Blog", href: "/blog/" },
+	{ label: "Projects", href: "/projects/" },
+	{ label: "Gallery", href: "/gallery/" },
 ];
 
 /** Icon links to social media — edit these with links to your profiles! */
-const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[] = [
+const iconLinks: {
+	label: string;
+	href: string;
+	icon: keyof typeof iconPaths;
+}[] = [
 	// { label: 'Twitter', href: 'https://twitter.com/me', icon: 'twitter-logo' },
-	{ label: 'GitHub', href: 'https://github.com/Noir01', icon: 'github-logo' },
-	{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/aniruddh-srivastava/', icon: 'linkedin-logo' },
+	{ label: "GitHub", href: "https://github.com/Noir01", icon: "github-logo" },
+	{
+		label: "LinkedIn",
+		href: "https://www.linkedin.com/in/aniruddh-srivastava/",
+		icon: "linkedin-logo",
+	},
 ];
 
 /** Test if a link is pointing to the current page. */
 const isCurrentPage = (href: string) => {
-	let pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
-	if (pathname.at(0) !== '/') pathname = '/' + pathname;
-	if (pathname.at(-1) !== '/') pathname += '/';
-	return pathname === href || (href !== '/' && pathname.startsWith(href));
+	let pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, "");
+	if (pathname.at(0) !== "/") pathname = "/" + pathname;
+	if (pathname.at(-1) !== "/") pathname += "/";
+	return pathname === href || (href !== "/" && pathname.startsWith(href));
 };
 ---
 
@@ -46,7 +54,11 @@ const isCurrentPage = (href: string) => {
 			{
 				textLinks.map(({ label, href }) => (
 					<li>
-						<a aria-current={isCurrentPage(href) ? 'page' : null} class="link" href={href}>
+						<a
+							aria-current={isCurrentPage(href) ? "page" : null}
+							class="link"
+							href={href}
+						>
 							{label}
 						</a>
 					</li>
@@ -73,7 +85,11 @@ const isCurrentPage = (href: string) => {
 			{
 				textLinks.map(({ label, href }) => (
 					<li>
-						<a aria-current={isCurrentPage(href) ? 'page' : null} class="link" href={href}>
+						<a
+							aria-current={isCurrentPage(href) ? "page" : null}
+							class="link"
+							href={href}
+						>
 							{label}
 						</a>
 					</li>
@@ -92,11 +108,13 @@ const isCurrentPage = (href: string) => {
 				}
 			</div>
 
-	{/* Theme toggle disabled - hardcoded to dark mode
+			{
+				/* Theme toggle disabled - hardcoded to dark mode
 			<div class="theme-toggle">
 				<ThemeToggle />
 			</div>
-			*/}
+			*/
+			}
 		</div>
 	</div>
 </nav>
@@ -107,35 +125,39 @@ const isCurrentPage = (href: string) => {
 			super();
 
 			// Inject menu toggle button when JS runs.
-			this.appendChild(this.querySelector('template')!.content.cloneNode(true));
-			const btn = this.querySelector('button')!;
+			this.appendChild(
+				this.querySelector("template")!.content.cloneNode(true),
+			);
+			const btn = this.querySelector("button")!;
 
 			// Hide menu (shown by default to support no-JS browsers).
-			const menu = document.getElementById('menu-content')!;
+			const menu = document.getElementById("menu-content")!;
 			menu.hidden = true;
 			// Add "menu-content" class in JS to avoid covering content in non-JS browsers.
-			menu.classList.add('menu-content');
+			menu.classList.add("menu-content");
 
 			/** Set whether the menu is currently expanded or collapsed. */
 			const setExpanded = (expand: boolean) => {
-				btn.setAttribute('aria-expanded', expand ? 'true' : 'false');
+				btn.setAttribute("aria-expanded", expand ? "true" : "false");
 				menu.hidden = !expand;
 			};
 
 			// Toggle menu visibility when the menu button is clicked.
-			btn.addEventListener('click', () => setExpanded(menu.hidden));
+			btn.addEventListener("click", () => setExpanded(menu.hidden));
 
 			// Hide menu button for large screens.
-			const handleViewports = (e: MediaQueryList | MediaQueryListEvent) => {
+			const handleViewports = (
+				e: MediaQueryList | MediaQueryListEvent,
+			) => {
 				setExpanded(e.matches);
 				btn.hidden = e.matches;
 			};
-			const mediaQueries = window.matchMedia('(min-width: 50em)');
+			const mediaQueries = window.matchMedia("(min-width: 50em)");
 			handleViewports(mediaQueries);
-			mediaQueries.addEventListener('change', handleViewports);
+			mediaQueries.addEventListener("change", handleViewports);
 		}
 	}
-	customElements.define('menu-button', MenuButton);
+	customElements.define("menu-button", MenuButton);
 </script>
 
 <style>
@@ -176,7 +198,7 @@ const isCurrentPage = (href: string) => {
 		cursor: pointer;
 	}
 
-	.menu-button[aria-expanded='true'] {
+	.menu-button[aria-expanded="true"] {
 		color: var(--gray-0);
 	}
 
@@ -208,7 +230,9 @@ const isCurrentPage = (href: string) => {
 		color: var(--gray-400);
 		text-decoration: none;
 		border-bottom: 1px solid transparent;
-		transition: color var(--theme-transition), border-color var(--theme-transition);
+		transition:
+			color var(--theme-transition),
+			border-color var(--theme-transition);
 	}
 
 	.link:hover,
@@ -292,7 +316,7 @@ const isCurrentPage = (href: string) => {
 			padding: 0.25rem 0;
 		}
 
-		.link[aria-current='page'] {
+		.link[aria-current="page"] {
 			color: var(--accent-regular);
 			border-bottom-color: transparent;
 		}
@@ -319,7 +343,7 @@ const isCurrentPage = (href: string) => {
 		}
 	}
 	@media (forced-colors: active) {
-		.link[aria-current='page'] {
+		.link[aria-current="page"] {
 			color: SelectedItem;
 		}
 	}
