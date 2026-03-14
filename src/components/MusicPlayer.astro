@@ -1,14 +1,14 @@
 ---
-import { SPOTIFY_API } from "../consts";
+import { SPOTIFY_API, LASTFM_API } from "../consts";
 ---
 
-<spotify-player data-api={SPOTIFY_API}>
+<music-player data-spotify-api={SPOTIFY_API} data-lastfm-api={LASTFM_API}>
 	<a
 		class="widget"
 		href="#"
 		target="_blank"
 		rel="noopener noreferrer"
-		aria-label="Spotify now playing"
+		aria-label="Now playing"
 	>
 		<div class="vinyl">
 			<svg
@@ -59,10 +59,10 @@ import { SPOTIFY_API } from "../consts";
 			<span class="artist"></span>
 		</div>
 	</a>
-</spotify-player>
+</music-player>
 
 <style>
-	spotify-player {
+	music-player {
 		position: fixed;
 		bottom: 1.5rem;
 		right: 1.5rem;
@@ -71,7 +71,7 @@ import { SPOTIFY_API } from "../consts";
 		transition: opacity 0.3s ease-in-out;
 	}
 
-	spotify-player[data-loaded] {
+	music-player[data-loaded] {
 		opacity: 1;
 	}
 
@@ -98,7 +98,7 @@ import { SPOTIFY_API } from "../consts";
 		color: var(--gray-300);
 	}
 
-	spotify-player[data-playing="true"] .vinyl svg {
+	music-player[data-playing="true"] .vinyl svg {
 		animation: pulse 2s ease-in-out infinite;
 	}
 
@@ -141,7 +141,7 @@ import { SPOTIFY_API } from "../consts";
 	}
 
 	@media (max-width: 50em) {
-		spotify-player {
+		music-player {
 			bottom: 1rem;
 			right: 1rem;
 		}
@@ -159,7 +159,14 @@ import { SPOTIFY_API } from "../consts";
 </style>
 
 <script>
-	class SpotifyPlayer extends HTMLElement {
+	interface TrackData {
+		song: string;
+		artist: string;
+		url: string;
+		playing: boolean;
+	}
+
+	class MusicPlayer extends HTMLElement {
 		private interval: ReturnType<typeof setInterval> | null = null;
 
 		connectedCallback() {
@@ -171,30 +178,62 @@ import { SPOTIFY_API } from "../consts";
 			if (this.interval) clearInterval(this.interval);
 		}
 
+		private async fetchSpotify(): Promise<TrackData | null> {
+			const api = this.dataset.spotifyApi;
+			if (!api) return null;
+
+			const res = await fetch(api);
+			if (!res.ok) return null;
+
+			const data = await res.json();
+			if (!data.song || !data.playing) return null;
+
+			return {
+				song: data.song,
+				artist: data.artist,
+				url: data.url,
+				playing: data.playing,
+			};
+		}
+
+		private async fetchLastfm(): Promise<TrackData | null> {
+			const api = this.dataset.lastfmApi;
+			if (!api) return null;
+
+			const res = await fetch(api);
+			if (!res.ok) return null;
+
+			const data = await res.json();
+			if (!data.name) return null;
+
+			return {
+				song: data.name,
+				artist: data.artist,
+				url: data.url,
+				playing: data.nowPlaying,
+			};
+		}
+
 		async fetchTrack() {
 			try {
-				const api = this.dataset.api;
-				if (!api) return;
-
-				const res = await fetch(api);
-				if (!res.ok) return;
-
-				const data = await res.json();
-				if (!data.song) return;
+				const track =
+					(await this.fetchSpotify()) ??
+					(await this.fetchLastfm());
+				if (!track) return;
 
 				const link = this.querySelector("a")!;
 				const status = this.querySelector(".status")!;
 				const song = this.querySelector(".song")!;
 				const artist = this.querySelector(".artist")!;
 
-				link.href = data.url || "#";
-				status.textContent = data.playing
+				link.href = track.url || "#";
+				status.textContent = track.playing
 					? "Now playing"
 					: "Was listening to";
-				song.textContent = data.song;
-				artist.textContent = data.artist;
+				song.textContent = track.song;
+				artist.textContent = track.artist;
 
-				this.dataset.playing = String(data.playing);
+				this.dataset.playing = String(track.playing);
 				this.dataset.loaded = "";
 			} catch {
 				// Silently hide on error
@@ -202,5 +241,5 @@ import { SPOTIFY_API } from "../consts";
 		}
 	}
 
-	customElements.define("spotify-player", SpotifyPlayer);
+	customElements.define("music-player", MusicPlayer);
 </script>

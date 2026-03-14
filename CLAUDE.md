@@ -37,17 +37,17 @@ Defined in `src/content.config.ts`:
 
 ### Key Files
 
-- `src/consts.ts`: Site-wide constants (`SITE_TITLE`, `SPOTIFY_API`).
+- `src/consts.ts`: Site-wide constants (`SITE_TITLE`, `SPOTIFY_API`, `LASTFM_API`).
 - `src/components/Nav.astro`: Nav links and social icon links are hardcoded arrays at the top of the file.
 - `src/components/IconPaths.ts`: SVG path data for all icons used via `Icon.astro`.
-- `src/components/SpotifyNowPlaying.astro`: Spotify "now playing" widget on the landing page (see below).
+- `src/components/MusicPlayer.astro`: Music "now playing" widget on the landing page (see below).
 
-### Spotify Now Playing Widget
+### Music Player Widget
 
-`SpotifyNowPlaying.astro` is a web component (`<spotify-player>`) rendered on `index.astro`, fixed to the bottom-right corner.
+`MusicPlayer.astro` is a web component (`<music-player>`) rendered on `index.astro`, fixed to the bottom-right corner.
 
-- **API:** `https://spotify.noir.ac` (constant in `src/consts.ts`). Returns `{ song, artist, album, url, playing }`. Has a 5-minute server-side cache. Returns `{ playing: false }` with no track data when nothing is playing.
-- **Behavior:** Fetches on mount, polls every 60s. Shows "Now playing" or "Was listening to" with song/artist. Hides silently if the API is unreachable or returns no track data.
+- **APIs:** Primary: `https://spotify.noir.ac` — returns `{ song, artist, album, url, playing }`. Fallback: `https://lastfm.noir.ac` — returns `{ name, artist, album, url, image, nowPlaying }`. The Last.fm API is used when Spotify is not actively playing.
+- **Behavior:** Fetches Spotify first; if not playing or unreachable, falls back to Last.fm. Polls every 60s. Shows "Now playing" or "Was listening to" with song/artist. Hides silently if both APIs are unreachable or return no track data.
 - **Icon:** Vinyl record SVG from [SVGRepo](https://www.svgrepo.com/svg/104707/vinyl), inline in the component. Uses `currentColor` for the disc/tonearm and `--accent-regular` for the center dot.
 - **Animation:** Subtle opacity pulse when `playing: true`, static when idle.
 - **Responsive:** Track info text hidden below 30em; widget compacts at 50em.
@@ -57,7 +57,7 @@ Defined in `src/content.config.ts`:
 
 Ideas to make the landing page feel like a living, personal space rather than a static business card:
 
-- ~~**Spotify "now playing / last played"**~~ — **Done.** See `SpotifyNowPlaying.astro`.
+- ~~**Music "now playing / last played"**~~ — **Done.** See `MusicPlayer.astro`. Uses Spotify with Last.fm fallback.
 - **"Now" sentence** — A single manually-updated sentence ("Currently obsessing over..."). Low-tech, high-personality, gives visitors a reason to return.
 - **Curated link** — "Something I found interesting this week" with a URL. What you pay attention to reveals more than what you build.
 - **Gallery photo on landing** — Pull a recent photo from the existing Gallery collection to give the landing immediate visual identity.
