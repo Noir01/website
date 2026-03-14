@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:spotify.noir.ac)"
+      "WebFetch(domain:spotify.noir.ac)",
+      "WebFetch(domain:developers.cloudflare.com)"
     ]
   }
 }
