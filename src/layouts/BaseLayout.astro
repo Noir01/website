@@ -6,7 +6,7 @@ import Footer from "../components/Footer.astro";
 // Component Imports
 import MainHead from "../components/MainHead.astro";
 import Nav from "../components/Nav.astro";
-import SpeedInsights from "@vercel/speed-insights/astro";
+
 
 interface Props {
 	title?: string | undefined;
@@ -40,6 +40,5 @@ const { title, description } = Astro.props;
 				background: var(--gray-999);
 			}
 		</style>
-		<SpeedInsights />
 	</body>
 </html>
