@@ -14,7 +14,7 @@ bun run preview  # Preview production build
 
 ## Architecture
 
-Personal portfolio site (noir.ac) built with **Astro 6** and MDX.
+Personal portfolio site (srivastava.dev, also accessible at noir.ac) built with **Astro 6** and MDX.
 
 ### Layouts
 

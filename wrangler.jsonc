@@ -9,6 +9,10 @@
   },
   "routes": [
     {
+      "pattern": "srivastava.dev",
+      "custom_domain": true
+    },
+    {
       "pattern": "noir.ac",
       "custom_domain": true
     }
