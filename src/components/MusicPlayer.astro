@@ -217,8 +217,7 @@ import { SPOTIFY_API, LASTFM_API } from "../consts";
 		async fetchTrack() {
 			try {
 				const track =
-					(await this.fetchSpotify()) ??
-					(await this.fetchLastfm());
+					(await this.fetchSpotify()) ?? (await this.fetchLastfm());
 				if (!track) return;
 
 				const link = this.querySelector("a")!;
