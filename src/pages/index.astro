@@ -9,42 +9,31 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 	description="Aniruddh Srivastava is a CS Honors student at Purdue University interested in systems programming, formal verification, and FPGA development. Incoming Cloudflare PM Intern."
 >
 	<main class="landing">
-		<div class="content">
+		<div class="left">
 			<h1 class="name">Aniruddh Srivastava</h1>
 			<p class="role">CS Honors @ Purdue · Incoming PM Intern @ Cloudflare · Systems, Formal Verification, FPGAs</p>
+		</div>
 
-			<p class="tagline">
+		<div class="divider" aria-hidden="true"></div>
+
+		<div class="right">
+			<p class="bio">
 				I'm a junior in Computer Science (Honors) at Purdue University with triple minors in
 				Mathematics, Physics, and Electrical &amp; Computer Engineering. This summer, I'm joining
 				Cloudflare as a Product Management intern on the Cloudflare One (Zero Trust) team in Austin, TX.
-				<br /><br />
+			</p>
+			<p class="bio">
 				My technical interests span systems programming, formal verification, and computer architecture.
 				I'm currently conducting honors research on LLM-assisted theorem proving and proof synthesis in
 				Rocq and Lean under Dr. Michael Borkowski. I also TA Systems Programming (CS 252) and serve as
 				VP of Recruitment for Boilermaker Consulting Group.
-				<br /><br />
+			</p>
+			<p class="bio">
 				Outside of academics, I enjoy competitive programming — I
 				do Advent of Code each year in a new language (Rust → Haskell → TypeScript → HardCaml/FPGAs).
 				I've previously worked as an ML Engineer at Bechtel and built geospatial data pipelines at
 				Purdue's Rosen Center for Advanced Computing. Online, I go by Ashedroid.
 			</p>
-
-			<!-- <div class="socials">
-				<a
-					href="https://github.com/Noir01"
-					class="social-link"
-					aria-label="GitHub"
-				>
-					<Icon icon="github-logo" size="1.4em" />
-				</a>
-				<a
-					href="https://www.linkedin.com/in/aniruddh-srivastava/"
-					class="social-link"
-					aria-label="LinkedIn"
-				>
-					<Icon icon="linkedin-logo" size="1.4em" />
-				</a>
-			</div> -->
 		</div>
 	</main>
 	<MusicPlayer />
@@ -54,21 +43,27 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 	.landing {
 		flex: 1;
 		display: flex;
+		flex-direction: row;
 		align-items: center;
 		padding: 0 max(5vw, 3rem);
+		gap: 0;
+		overflow: hidden;
 	}
 
-	.content {
+	/* Left half */
+	.left {
+		flex: 1;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		max-width: 700px;
+		justify-content: center;
+		padding-right: 3rem;
 	}
 
 	.name {
 		font-family: var(--font-brand);
 		font-weight: 500;
-		font-size: clamp(2.5rem, 7vw, 5rem);
+		font-size: clamp(2.5rem, 5vw, 5rem);
 		line-height: 1;
 		color: var(--gray-0);
 		margin: 0 0 0.75rem;
@@ -76,52 +71,72 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 
 	.role {
 		font-family: var(--font-body);
-		font-size: var(--text-md);
+		font-size: var(--text-sm);
 		color: var(--gray-400);
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		margin: 0;
 	}
 
-	.tagline {
+	/* Divider */
+	.divider {
+		width: 1px;
+		align-self: stretch;
+		background: var(--gray-800);
+		flex-shrink: 0;
+		margin: 4rem 0;
+	}
+
+	/* Right half */
+	.right {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-left: 3rem;
+		overflow-y: auto;
+		max-height: 100%;
+	}
+
+	.bio {
 		font-size: var(--text-sm);
 		color: var(--gray-300);
-		max-width: 60ch;
 		line-height: 1.7;
-		margin: 1.5rem 0 0;
+		margin: 0 0 1rem;
 	}
 
-	.socials {
-		display: flex;
-		gap: 0.25rem;
-		margin-top: 2.5rem;
+	.bio:last-child {
+		margin-bottom: 0;
 	}
 
-	.social-link {
-		display: flex;
-		padding: 0.4rem;
-		color: var(--gray-400);
-		text-decoration: none;
-		transition: color var(--theme-transition);
-	}
-
-	.social-link:hover {
-		color: var(--gray-0);
-	}
-
-	@media (min-width: 50em) {
-		.landing {
-			overflow-y: auto;
-		}
-	}
-
+	/* Mobile: stack vertically */
 	@media (max-width: 50em) {
 		.landing {
-			padding: 0 1.5rem;
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 2rem 1.5rem;
+			overflow-y: auto;
+			gap: 2rem;
+		}
+
+		.left {
+			padding-right: 0;
 		}
 
 		.name {
 			font-size: clamp(2rem, 10vw, 3rem);
+		}
+
+		.divider {
+			width: 100%;
+			height: 1px;
+			align-self: auto;
+			margin: 0;
+		}
+
+		.right {
+			padding-left: 0;
+			overflow-y: visible;
 		}
 	}
 </style>
