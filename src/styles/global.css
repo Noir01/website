@@ -1,7 +1,7 @@
 /* Self-hosted Fira Code variable font */
 @font-face {
 	font-family: 'Fira Code';
-	src: url('/fonts/fira-code/FiraCode-VF.woff2') format('woff2-variations');
+	src: url('/fonts/fira-code/FiraCode-VF.woff2') format('woff2');
 	font-weight: 300 700;
 	font-style: normal;
 	font-display: swap;
