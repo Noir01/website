@@ -2,13 +2,13 @@
 import "../styles/global.css";
 
 interface Props {
-  title?: string | undefined;
-  description?: string | undefined;
+	title?: string | undefined;
+	description?: string | undefined;
 }
 
 const {
-  title = "Aniruddh Srivastava — Software Engineer, CS Honors @ Purdue University",
-  description = "Aniruddh Srivastava is a CS Honors student at Purdue University interested in systems programming, formal verification, and FPGA development. Incoming Cloudflare PM Intern.",
+	title = "Aniruddh Srivastava — Software Engineer, CS Honors @ Purdue University",
+	description = "Aniruddh Srivastava is a CS Honors student at Purdue University interested in systems programming, formal verification, and FPGA development. Incoming Cloudflare PM Intern.",
 } = Astro.props;
 ---
 
@@ -19,46 +19,46 @@ const {
 <title>{title}</title>
 
 <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Aniruddh Srivastava",
-    "alternateName": "Ashedroid",
-    "url": "https://srivastava.dev",
-    "sameAs": [
-      "https://github.com/Noir01",
-      "https://www.linkedin.com/in/aniruddh-srivastava/"
-    ],
-    "jobTitle": "Incoming PM Intern",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Cloudflare"
-    },
-    "alumniOf": {
-      "@type": "CollegeOrUniversity",
-      "name": "Purdue University"
-    },
-    "knowsAbout": [
-      "Systems Programming",
-      "Formal Verification",
-      "FPGA Development",
-      "LLM-Assisted Theorem Proving"
-    ]
-  }
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Aniruddh Srivastava",
+  "alternateName": "Ashedroid",
+  "url": "https://srivastava.dev",
+  "sameAs": [
+    "https://github.com/Noir01",
+    "https://www.linkedin.com/in/aniruddh-srivastava/"
+  ],
+  "jobTitle": "Incoming PM Intern",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Cloudflare"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Purdue University"
+  },
+  "knowsAbout": [
+    "Systems Programming",
+    "Formal Verification",
+    "FPGA Development",
+    "LLM-Assisted Theorem Proving"
+  ]
+}
 </script>
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-  href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&display=swap"
-  rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&display=swap"
+	rel="stylesheet"
 />
 <script is:inline>
-  // Theme toggle disabled - hardcoded to dark mode
-  document.documentElement.classList.add("theme-dark");
+	// Theme toggle disabled - hardcoded to dark mode
+	document.documentElement.classList.add("theme-dark");
 
-  /* Original theme preference code:
+	/* Original theme preference code:
 	const getThemePreference = () => {
 		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
 			return localStorage.getItem('theme');

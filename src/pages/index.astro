@@ -5,137 +5,133 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 ---
 
 <LandingLayout
-  title="Aniruddh Srivastava — Software Engineer, CS Honors @ Purdue University"
-  description="Aniruddh Srivastava is a CS Honors student at Purdue University interested in systems programming, formal verification, and FPGA development. Incoming Cloudflare PM Intern."
+	title="Aniruddh Srivastava — Software Engineer, CS Honors @ Purdue University"
+	description="Aniruddh Srivastava is a CS Honors student at Purdue University interested in systems programming, formal verification, and FPGA development. Incoming Cloudflare PM Intern."
 >
-  <main class="landing">
-    <div class="left">
-      <h1 class="name">Aniruddh Srivastava</h1>
-      <p class="role">
-        CS Honors @ Purdue · Incoming PM Intern @ Cloudflare · Systems, Formal
-        Verification, FPGAs
-      </p>
-    </div>
+	<main class="landing">
+		<div class="left">
+			<h1 class="name">Aniruddh Srivastava</h1>
+			<p class="role">CS Honors @ Purdue · Incoming PM Intern @ Cloudflare · Systems, Formal Verification, FPGAs</p>
+		</div>
 
-    <div class="divider" aria-hidden="true"></div>
+		<div class="divider" aria-hidden="true"></div>
 
-    <div class="right">
-      <p class="bio">
-        Junior in CS Honors at Purdue with minors in Math, Physics, and ECE.
-        Incoming PM intern at Cloudflare on the Zero Trust team.
-      </p>
-      <p class="bio">
-        Interested in systems programming, formal verification, and computer
-        architecture. Currently researching LLM-assisted theorem proving in Rocq
-        and Lean.
-      </p>
-      <p class="bio">
-        CS 252 TA and annual Advent of Code participant. Previously ML Engineer
-        at Bechtel. Online, I go by Ashedroid.
-      </p>
-    </div>
-  </main>
-  <MusicPlayer />
+		<div class="right">
+			<p class="bio">
+				Junior in CS Honors at Purdue with minors in Math, Physics, and ECE.
+				Incoming PM intern at Cloudflare on the Zero Trust team.
+			</p>
+			<p class="bio">
+				Interested in systems programming, formal verification, and computer architecture.
+				Currently researching LLM-assisted theorem proving in Rocq and Lean.
+			</p>
+			<p class="bio">
+				CS 252 TA and annual Advent of Code participant.
+				Previously ML Engineer at Bechtel. Online, I go by Ashedroid.
+			</p>
+		</div>
+	</main>
+	<MusicPlayer />
 </LandingLayout>
 
 <style>
-  .landing {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0 max(5vw, 3rem);
-    gap: 0;
-    overflow: hidden;
-  }
+	.landing {
+		flex: 1;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		padding: 0 max(5vw, 3rem);
+		gap: 0;
+		overflow: hidden;
+	}
 
-  /* Left half */
-  .left {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding-right: 3rem;
-  }
+	/* Left half */
+	.left {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		padding-right: 3rem;
+	}
 
-  .name {
-    font-family: var(--font-brand);
-    font-weight: 500;
-    font-size: clamp(2.5rem, 5vw, 5rem);
-    line-height: 1;
-    color: var(--gray-0);
-    margin: 0 0 0.75rem;
-  }
+	.name {
+		font-family: var(--font-brand);
+		font-weight: 500;
+		font-size: clamp(2.5rem, 5vw, 5rem);
+		line-height: 1;
+		color: var(--gray-0);
+		margin: 0 0 0.75rem;
+	}
 
-  .role {
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    color: var(--gray-400);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 0;
-  }
+	.role {
+		font-family: var(--font-body);
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		margin: 0;
+	}
 
-  /* Divider */
-  .divider {
-    width: 1px;
-    align-self: stretch;
-    background: var(--gray-800);
-    flex-shrink: 0;
-    margin: 4rem 0;
-  }
+	/* Divider */
+	.divider {
+		width: 1px;
+		align-self: stretch;
+		background: var(--gray-800);
+		flex-shrink: 0;
+		margin: 4rem 0;
+	}
 
-  /* Right half */
-  .right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 3rem;
-    overflow-y: auto;
-    max-height: 100%;
-  }
+	/* Right half */
+	.right {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding-left: 3rem;
+		overflow-y: auto;
+		max-height: 100%;
+	}
 
-  .bio {
-    font-size: var(--text-sm);
-    color: var(--gray-300);
-    line-height: 1.7;
-    margin: 0 0 1rem;
-  }
+	.bio {
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+		line-height: 1.7;
+		margin: 0 0 1rem;
+	}
 
-  .bio:last-child {
-    margin-bottom: 0;
-  }
+	.bio:last-child {
+		margin-bottom: 0;
+	}
 
-  /* Mobile: stack vertically */
-  @media (max-width: 50em) {
-    .landing {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 2rem 1.5rem;
-      overflow-y: auto;
-      gap: 2rem;
-    }
+	/* Mobile: stack vertically */
+	@media (max-width: 50em) {
+		.landing {
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 2rem 1.5rem;
+			overflow-y: auto;
+			gap: 2rem;
+		}
 
-    .left {
-      padding-right: 0;
-    }
+		.left {
+			padding-right: 0;
+		}
 
-    .name {
-      font-size: clamp(2rem, 10vw, 3rem);
-    }
+		.name {
+			font-size: clamp(2rem, 10vw, 3rem);
+		}
 
-    .divider {
-      width: 100%;
-      height: 1px;
-      align-self: auto;
-      margin: 0;
-    }
+		.divider {
+			width: 100%;
+			height: 1px;
+			align-self: auto;
+			margin: 0;
+		}
 
-    .right {
-      padding-left: 0;
-      overflow-y: visible;
-    }
-  }
+		.right {
+			padding-left: 0;
+			overflow-y: visible;
+		}
+	}
 </style>
