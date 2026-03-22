@@ -4,16 +4,30 @@ import Icon from "../components/Icon.astro";
 import MusicPlayer from "../components/MusicPlayer.astro";
 ---
 
-<LandingLayout>
+<LandingLayout
+	title="Aniruddh Srivastava — Software Engineer, CS Honors @ Purdue University"
+	description="Aniruddh Srivastava is a CS Honors student at Purdue University interested in systems programming, formal verification, and FPGA development. Incoming Cloudflare PM Intern."
+>
 	<main class="landing">
 		<div class="content">
 			<h1 class="name">Aniruddh Srivastava</h1>
-			<p class="role">Software Engineer</p>
+			<p class="role">CS Honors @ Purdue · Incoming PM Intern @ Cloudflare · Systems, Formal Verification, FPGAs</p>
 
-			<!-- <p class="tagline">
-				Learning something new every day and building useful things
-				along the way.
-			</p> -->
+			<p class="tagline">
+				I'm a junior in Computer Science (Honors) at Purdue University with triple minors in
+				Mathematics, Physics, and Electrical &amp; Computer Engineering. This summer, I'm joining
+				Cloudflare as a Product Management intern on the Cloudflare One (Zero Trust) team in Austin, TX.
+				<br /><br />
+				My technical interests span systems programming, formal verification, and computer architecture.
+				I'm currently conducting honors research on LLM-assisted theorem proving and proof synthesis in
+				Rocq and Lean under Dr. Michael Borkowski. I also TA Systems Programming (CS 252) and serve as
+				VP of Recruitment for Boilermaker Consulting Group.
+				<br /><br />
+				Outside of academics, I enjoy competitive programming — I
+				do Advent of Code each year in a new language (Rust → Haskell → TypeScript → HardCaml/FPGAs).
+				I've previously worked as an ML Engineer at Bechtel and built geospatial data pipelines at
+				Purdue's Rosen Center for Advanced Computing. Online, I go by Ashedroid.
+			</p>
 
 			<!-- <div class="socials">
 				<a
@@ -70,11 +84,11 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 	}
 
 	.tagline {
-		font-size: var(--text-md);
+		font-size: var(--text-sm);
 		color: var(--gray-300);
-		max-width: 38ch;
+		max-width: 60ch;
 		line-height: 1.7;
-		margin: 2.5rem 0 0;
+		margin: 1.5rem 0 0;
 	}
 
 	.socials {
@@ -93,6 +107,12 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 
 	.social-link:hover {
 		color: var(--gray-0);
+	}
+
+	@media (min-width: 50em) {
+		.landing {
+			overflow-y: auto;
+		}
 	}
 
 	@media (max-width: 50em) {
