@@ -2,45 +2,44 @@
 import MainHead from "../components/MainHead.astro";
 import Nav from "../components/Nav.astro";
 
-
 interface Props {
-	title?: string | undefined;
-	description?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
 }
 
 const { title, description } = Astro.props;
 ---
 
 <html lang="en">
-	<head>
-		<MainHead title={title} description={description} />
-	</head>
-	<body>
-		<div class="landing-container">
-			<Nav />
-			<slot />
-		</div>
+  <head>
+    <MainHead title={title} description={description} />
+  </head>
+  <body>
+    <div class="landing-container">
+      <Nav />
+      <slot />
+    </div>
 
-		<script>
-			addEventListener("load", () =>
-				document.documentElement.classList.add("loaded"),
-			);
-		</script>
+    <script>
+      addEventListener("load", () =>
+        document.documentElement.classList.add("loaded"),
+      );
+    </script>
 
-		<style>
-			.landing-container {
-				min-height: 100vh;
-				display: flex;
-				flex-direction: column;
-				background-color: var(--gray-999);
-			}
+    <style>
+      .landing-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--gray-999);
+      }
 
-			@media (min-width: 50em) {
-				.landing-container {
-					max-height: 100vh;
-					overflow: hidden;
-				}
-			}
-		</style>
-	</body>
+      @media (min-width: 50em) {
+        .landing-container {
+          max-height: 100vh;
+          overflow: hidden;
+        }
+      }
+    </style>
+  </body>
 </html>
