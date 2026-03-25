@@ -10,6 +10,70 @@ const {
 	title = "Aniruddh Srivastava | Purdue | Cloudflare",
 	description = "Aniruddh Srivastava is a CS Honors student at Purdue University interested in systems programming, formal verification, and FPGA development. Incoming Cloudflare PM Intern.",
 } = Astro.props;
+
+const canonicalUrl = Astro.url.href;
+
+const schema = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "Person",
+			"@id": "https://srivastava.dev/#aniruddh",
+			"name": "Aniruddh Srivastava",
+			"alternateName": "Noir",
+			"url": "https://srivastava.dev/",
+			"image": "https://srivastava.dev/headshot.jpg",
+			"description": "CS Honors student at Purdue University with minors in Mathematics, Physics, and ECE. Incoming PM Intern at Cloudflare on the Zero Trust team. Interested in systems programming, formal verification, and computer architecture.",
+			"jobTitle": "Product Manager Intern",
+			"worksFor": {
+				"@type": "Organization",
+				"name": "Cloudflare",
+				"url": "https://www.cloudflare.com/"
+			},
+			"affiliation": {
+				"@type": "CollegeOrUniversity",
+				"name": "Purdue University",
+				"url": "https://www.purdue.edu/"
+			},
+			"sameAs": [
+				"https://github.com/Noir01",
+				"https://www.linkedin.com/in/aniruddh-srivastava/"
+			],
+			"knowsAbout": [
+				"Systems Programming",
+				"Formal Verification",
+				"FPGA Development",
+				"LLM-Assisted Theorem Proving",
+				"Computer Architecture",
+				"Product Management"
+			]
+		},
+		{
+			"@type": "WebSite",
+			"@id": "https://srivastava.dev/#website",
+			"url": "https://srivastava.dev/",
+			"name": "Aniruddh Srivastava",
+			"publisher": {
+				"@id": "https://srivastava.dev/#aniruddh"
+			}
+		},
+		{
+			"@type": "WebPage",
+			"@id": `${canonicalUrl}#webpage`,
+			"url": canonicalUrl,
+			"name": title,
+			"isPartOf": {
+				"@id": "https://srivastava.dev/#website"
+			},
+			"about": {
+				"@id": "https://srivastava.dev/#aniruddh"
+			},
+			"mainEntity": {
+				"@id": "https://srivastava.dev/#aniruddh"
+			}
+		}
+	]
+};
 ---
 
 <meta charset="UTF-8" />
@@ -18,69 +82,7 @@ const {
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": "https://srivastava.dev/#aniruddh",
-      "name": "Aniruddh Srivastava",
-      "alternateName": "Noir",
-      "url": "https://srivastava.dev",
-      "image": "",
-      "description": "CS Honors student at Purdue University with minors in Mathematics, Physics, and ECE. Incoming PM Intern at Cloudflare on the Zero Trust team. Interested in systems programming, formal verification, and computer architecture.",
-      "jobTitle": "Product Manager Intern",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Cloudflare",
-        "url": "https://www.cloudflare.com/"
-      },
-      "affiliation": {
-        "@type": "CollegeOrUniversity",
-        "name": "Purdue University",
-        "url": "https://www.purdue.edu/"
-      },
-      "sameAs": [
-        "https://github.com/Noir01",
-        "https://www.linkedin.com/in/aniruddh-srivastava/"
-      ],
-      "knowsAbout": [
-        "Systems Programming",
-        "Formal Verification",
-        "FPGA Development",
-        "LLM-Assisted Theorem Proving",
-        "Computer Architecture",
-        "Product Management"
-      ]
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://srivastava.dev/#website",
-      "url": "https://srivastava.dev/",
-      "name": "Aniruddh Srivastava",
-      "publisher": {
-        "@id": "https://srivastava.dev/#aniruddh"
-      }
-    },
-    {
-      "@type": "WebPage",
-      "@id": "https://srivastava.dev/#webpage",
-      "url": "https://srivastava.dev/",
-      "name": "Aniruddh Srivastava",
-      "isPartOf": {
-        "@id": "https://srivastava.dev/#website"
-      },
-      "about": {
-        "@id": "https://srivastava.dev/#aniruddh"
-      },
-      "mainEntity": {
-        "@id": "https://srivastava.dev/#aniruddh"
-      }
-    }
-  ]
-}
-</script>
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preload" href="/fonts/fira-code/FiraCode-VF.woff2" as="font" type="font/woff2" crossorigin />
