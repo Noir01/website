@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { TITLE } from "../consts";
 
 interface Props {
 	title?: string | undefined;
@@ -7,7 +8,7 @@ interface Props {
 }
 
 const {
-	title = "Aniruddh Srivastava | Purdue | Cloudflare",
+	title = TITLE,
 	description = "Aniruddh Srivastava is a CS Honors student at Purdue University interested in systems programming, formal verification, and FPGA development. Incoming Cloudflare PM Intern.",
 } = Astro.props;
 
