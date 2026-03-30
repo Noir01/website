@@ -31,6 +31,19 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 		</div>
 	</main>
 	<MusicPlayer />
+	<!-- <div class="webring">
+		<a href="https://ring.purduehackers.com/previous?host=srivastava.dev" referrerpolicy="origin">←</a>
+		<a href="https://ring.purduehackers.com/" target="_blank" rel="noopener" title="Purdue Hackers webring">
+			<svg width="1em" height="1em" viewBox="0 0 2160 2160" aria-label="Purdue Hackers" role="img" style="display:block">
+				<g fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
+					<path fill="#FDD34A" d="M720.627 362.058 1080 571.597l348.11-203.284 1.04 405.519 23.72.286 1.24-417.008 348.49 196.999 2.36 837.511-350.53 196.03-.32-425.9L1080 1379.46v430.08l-361.083 205.48-360.459-209.33 1.317-403.07 366.413 210.14 10.851-20.93-363.838-211.46 347.868-203z"/>
+					<path fill="none" d="m720.627 362.058.442 815.312-347.868 203 363.838 211.46-10.851 20.93-366.413-210.14-1.317 403.07 360.459 209.33L1080 1809.54v-430.08l374.11-217.71.32 425.9 350.53-196.03-2.36-837.511-348.49-196.999-1.24 417.008-23.72-.286-1.04-405.519L1080 571.597z"/>
+					<path fill="#FDD34A" d="m1091.06 1398.64 339.84 196.68m-1.04-395c.15-.09.34-.09.5 0 .15.08.25.25.25.43l.29 394.57-1.29-393.7-338.55 197.02 339.3-198.32.54 395-339.84-196.68M1080 546.597 731.583 343.446 1079.85 141.47l348.26 201.843z"/>
+				</g>
+			</svg>
+		</a>
+		<a href="https://ring.purduehackers.com/next?host=srivastava.dev" referrerpolicy="origin">→</a>
+	</div> -->
 </LandingLayout>
 
 <style>
@@ -101,6 +114,35 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 
 	.bio:last-child {
 		margin-bottom: 0;
+	}
+
+	/* Webring */
+	.webring {
+		position: fixed;
+		bottom: 1.5rem;
+		left: 1.5rem;
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-size: var(--text-sm);
+	}
+
+	.webring a {
+		color: var(--gray-400);
+		text-decoration: none;
+		transition: color var(--theme-transition);
+		display: flex;
+		align-items: center;
+	}
+
+	.webring a svg {
+		width: 1.4rem;
+		height: 1.4rem;
+	}
+
+	.webring a:hover {
+		color: var(--accent-regular);
 	}
 
 	/* Mobile: stack vertically */
