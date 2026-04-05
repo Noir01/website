@@ -1,6 +1,7 @@
 ---
 import MainHead from "../components/MainHead.astro";
 import Nav from "../components/Nav.astro";
+import DitherCanvas from "../components/DitherCanvas.astro";
 
 
 interface Props {
@@ -17,6 +18,7 @@ const { title, description } = Astro.props;
 	</head>
 	<body>
 		<div class="landing-container">
+			<DitherCanvas />
 			<Nav hideNavLinks />
 			<slot />
 		</div>

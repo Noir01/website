@@ -1,0 +1,292 @@
+---
+---
+
+<dither-canvas>
+	<canvas id="dither-bg" aria-hidden="true"></canvas>
+
+	<!-- Cloudflare cloud logomark (orange cloud, no text) -->
+	<template data-logo="cloudflare">
+		<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+			<path fill="#F6821F" d="M16.5088 16.8447c.1475-.5068.0908-.9707-.1553-1.3154-.2246-.3164-.6045-.499-1.0615-.5205l-8.6592-.1123a.1559.1559 0 0 1-.1333-.0713c-.0283-.042-.0351-.0986-.021-.1553.0278-.084.1123-.1484.2036-.1562l8.7359-.1123c1.0351-.0489 2.1601-.8868 2.5537-1.9136l.499-1.3013c.0215-.0561.0293-.1128.0147-.168-.5625-2.5463-2.835-4.4453-5.5499-4.4453-2.5039 0-4.6284 1.6177-5.3876 3.8614-.4927-.3658-1.1187-.5625-1.794-.499-1.2026.119-2.1665 1.083-2.2861 2.2856-.0283.31-.0069.6128.0635.894C1.5683 13.171 0 14.7754 0 16.752c0 .1748.0142.3515.0352.5273.0141.083.0844.1475.1689.1475h15.9814c.0909 0 .1758-.0645.2032-.1553l.12-.4268z"/>
+			<path fill="#F6821F" d="m19.2656 11.2813c-.0771 0-.1611 0-.2383.0112-.0566 0-.1054.0415-.127.0976l-.3378 1.1744c-.1475.5068-.0918.9707.1543 1.3164.2256.3164.6055.498 1.0625.5195l1.8437.1133c.0557 0 .1055.0263.1329.0703.0283.043.0351.1074.0214.1562-.0283.084-.1132.1485-.204.1553l-1.921.1123c-1.041.0488-2.1582.8867-2.5527 1.914l-.1406.3585c-.0283.0713.0215.1416.0986.1416h6.5977c.0771 0 .1474-.0489.169-.126.1122-.4082.1757-.837.1757-1.2803 0-2.6025-2.125-4.727-4.7344-4.727"/>
+		</svg>
+	</template>
+
+	<!-- Purdue "Motion P" placeholder — replace with official SVG -->
+	<template data-logo="purdue">
+		<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+			<path fill="#CFB991" d="M10 0h30v120H10zM40 0h35c20 0 35 13 35 33s-15 33-35 33H40V44h30c8 0 13-5 13-11s-5-11-13-11H40z"/>
+		</svg>
+	</template>
+
+	<!-- Purdue Hackers lightning bolt logo -->
+	<template data-logo="purdue-hackers">
+		<svg viewBox="0 0 2160 2160" xmlns="http://www.w3.org/2000/svg">
+			<g fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2">
+				<path fill="#FDD34A" d="M720.627 362.058 1080 571.597l348.11-203.284 1.04 405.519 23.72.286 1.24-417.008 348.49 196.999 2.36 837.511-350.53 196.03-.32-425.9L1080 1379.46v430.08l-361.083 205.48-360.459-209.33 1.317-403.07 366.413 210.14 10.851-20.93-363.838-211.46 347.868-203z"/>
+				<path fill="none" d="m720.627 362.058.442 815.312-347.868 203 363.838 211.46-10.851 20.93-366.413-210.14-1.317 403.07 360.459 209.33L1080 1809.54v-430.08l374.11-217.71.32 425.9 350.53-196.03-2.36-837.511-348.49-196.999-1.24 417.008-23.72-.286-1.04-405.519L1080 571.597z"/>
+				<path fill="#FDD34A" d="m1091.06 1398.64 339.84 196.68m-1.04-395c.15-.09.34-.09.5 0 .15.08.25.25.25.43l.29 394.57-1.29-393.7-338.55 197.02 339.3-198.32.54 395-339.84-196.68M1080 546.597 731.583 343.446 1079.85 141.47l348.26 201.843z"/>
+			</g>
+		</svg>
+	</template>
+</dither-canvas>
+
+<style>
+	dither-canvas {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+	}
+
+	dither-canvas canvas {
+		width: 100%;
+		height: 100%;
+		display: block;
+		transition: opacity 0.4s ease-out;
+	}
+</style>
+
+<script>
+	interface DitheredLogo {
+		width: number;
+		height: number;
+		pixels: [number, number][];
+		color: string;
+	}
+
+	const LOGO_COLORS: Record<string, string> = {
+		cloudflare: "#F6821F",
+		purdue: "#CFB991",
+		"purdue-hackers": "#FDD34A",
+	};
+
+	class DitherCanvas extends HTMLElement {
+		private canvas!: HTMLCanvasElement;
+		private ctx!: CanvasRenderingContext2D;
+		private logos: Map<string, DitheredLogo> = new Map();
+		private animationId: number | null = null;
+		private revealedCount = 0;
+		private startTime = 0;
+		private currentLogo: string | null = null;
+		private fadingOut = false;
+		private resizeTimer: ReturnType<typeof setTimeout> | null = null;
+
+		connectedCallback() {
+			if (!window.matchMedia("(hover: hover)").matches) return;
+
+			this.canvas = this.querySelector("canvas")!;
+			const ctx = this.canvas.getContext("2d");
+			if (!ctx) return;
+			this.ctx = ctx;
+
+			this.resizeCanvas();
+			window.addEventListener("resize", () => this.handleResize());
+
+			document.querySelectorAll<HTMLElement>("[data-dither]").forEach((el) => {
+				const key = el.dataset.dither!;
+				el.addEventListener("mouseenter", () => this.showLogo(key));
+				el.addEventListener("mouseleave", () => this.hideLogo());
+			});
+
+			this.preloadLogos();
+		}
+
+		private resizeCanvas() {
+			this.canvas.width = window.innerWidth;
+			this.canvas.height = window.innerHeight;
+		}
+
+		private handleResize() {
+			if (this.resizeTimer) clearTimeout(this.resizeTimer);
+			this.resizeTimer = setTimeout(() => {
+				this.cancelAnimation();
+				this.resizeCanvas();
+				this.logos.clear();
+				this.preloadLogos();
+			}, 250);
+		}
+
+		private async preloadLogos() {
+			const templates = this.querySelectorAll<HTMLTemplateElement>("template[data-logo]");
+			for (const tpl of templates) {
+				const key = tpl.dataset.logo!;
+				if (this.logos.has(key)) continue;
+				try {
+					const dithered = await this.rasterizeAndDither(tpl, key);
+					this.logos.set(key, dithered);
+				} catch {
+					// Skip logos that fail to load
+				}
+			}
+		}
+
+		private rasterizeAndDither(tpl: HTMLTemplateElement, key: string): Promise<DitheredLogo> {
+			return new Promise((resolve, reject) => {
+				const svgEl = tpl.content.querySelector("svg");
+				if (!svgEl) return reject(new Error("No SVG found"));
+
+				const svgClone = svgEl.cloneNode(true) as SVGElement;
+				svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+				const svgString = new XMLSerializer().serializeToString(svgClone);
+				const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+				const url = URL.createObjectURL(blob);
+
+				const img = new Image();
+				img.onload = () => {
+					URL.revokeObjectURL(url);
+
+					const size = Math.min(this.canvas.width, this.canvas.height) * 0.6;
+					const aspect = img.naturalWidth / img.naturalHeight;
+					let w: number, h: number;
+					if (aspect >= 1) {
+						w = Math.round(size);
+						h = Math.round(size / aspect);
+					} else {
+						h = Math.round(size);
+						w = Math.round(size * aspect);
+					}
+
+					const offscreen = document.createElement("canvas");
+					offscreen.width = w;
+					offscreen.height = h;
+					const offCtx = offscreen.getContext("2d")!;
+					offCtx.drawImage(img, 0, 0, w, h);
+					const imageData = offCtx.getImageData(0, 0, w, h);
+
+					const pixels = this.floydSteinberg(imageData);
+					resolve({
+						width: w,
+						height: h,
+						pixels,
+						color: LOGO_COLORS[key] || "#ffffff",
+					});
+				};
+				img.onerror = () => {
+					URL.revokeObjectURL(url);
+					reject(new Error("Image load failed"));
+				};
+				img.src = url;
+			});
+		}
+
+		private floydSteinberg(imageData: ImageData): [number, number][] {
+			const { width, height, data } = imageData;
+			const gray = new Float32Array(width * height);
+
+			for (let i = 0; i < gray.length; i++) {
+				const r = data[i * 4];
+				const g = data[i * 4 + 1];
+				const b = data[i * 4 + 2];
+				const a = data[i * 4 + 3];
+				// Transparent pixels are treated as white (background)
+				gray[i] = a < 10 ? 255 : 0.299 * r + 0.587 * g + 0.114 * b;
+			}
+
+			const active: [number, number][] = [];
+
+			for (let y = 0; y < height; y++) {
+				for (let x = 0; x < width; x++) {
+					const idx = y * width + x;
+					const oldVal = gray[idx];
+					const newVal = oldVal < 128 ? 0 : 255;
+					if (newVal === 0) active.push([x, y]);
+					const error = oldVal - newVal;
+
+					if (x + 1 < width) gray[idx + 1] += error * 7 / 16;
+					if (y + 1 < height) {
+						if (x - 1 >= 0) gray[idx + width - 1] += error * 3 / 16;
+						gray[idx + width] += error * 5 / 16;
+						if (x + 1 < width) gray[idx + width + 1] += error * 1 / 16;
+					}
+				}
+			}
+
+			// Shuffle for random reveal order
+			for (let i = active.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[active[i], active[j]] = [active[j], active[i]];
+			}
+
+			return active;
+		}
+
+		private showLogo(key: string) {
+			this.cancelAnimation();
+			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			this.canvas.style.opacity = "1";
+			this.fadingOut = false;
+			this.revealedCount = 0;
+			this.currentLogo = key;
+
+			const logo = this.logos.get(key);
+			if (!logo) return;
+
+			this.startTime = performance.now();
+			this.animationId = requestAnimationFrame((t) => this.animate(t));
+		}
+
+		private hideLogo() {
+			if (this.fadingOut) return;
+			this.fadingOut = true;
+			this.canvas.style.opacity = "0";
+
+			const cleanup = () => {
+				this.canvas.removeEventListener("transitionend", cleanup);
+				this.cancelAnimation();
+				this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				this.canvas.style.opacity = "1";
+				this.fadingOut = false;
+				this.currentLogo = null;
+				this.revealedCount = 0;
+			};
+			this.canvas.addEventListener("transitionend", cleanup, { once: true });
+
+			// Fallback in case transitionend doesn't fire
+			setTimeout(cleanup, 500);
+		}
+
+		private cancelAnimation() {
+			if (this.animationId !== null) {
+				cancelAnimationFrame(this.animationId);
+				this.animationId = null;
+			}
+		}
+
+		private animate(timestamp: number) {
+			if (!this.currentLogo || this.fadingOut) return;
+
+			const logo = this.logos.get(this.currentLogo);
+			if (!logo) return;
+
+			const elapsed = timestamp - this.startTime;
+			const duration = 1500;
+			const progress = Math.min(elapsed / duration, 1);
+			// Ease-out cubic
+			const eased = 1 - Math.pow(1 - progress, 3);
+			const targetCount = Math.floor(eased * logo.pixels.length);
+
+			const offsetX = Math.round((this.canvas.width - logo.width) / 2);
+			const offsetY = Math.round((this.canvas.height - logo.height) / 2);
+
+			this.ctx.fillStyle = logo.color;
+			this.ctx.globalAlpha = 0.18;
+
+			for (let i = this.revealedCount; i < targetCount; i++) {
+				const [x, y] = logo.pixels[i];
+				this.ctx.fillRect(offsetX + x, offsetY + y, 1, 1);
+			}
+			this.revealedCount = targetCount;
+
+			this.ctx.globalAlpha = 1;
+
+			if (progress < 1) {
+				this.animationId = requestAnimationFrame((t) => this.animate(t));
+			} else {
+				this.animationId = null;
+			}
+		}
+	}
+
+	customElements.define("dither-canvas", DitherCanvas);
+</script>
