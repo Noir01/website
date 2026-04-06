@@ -128,6 +128,9 @@
 
 				const svgClone = svgEl.cloneNode(true) as SVGElement;
 				svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+				// Explicit dimensions ensure the Image loads with correct naturalWidth/Height
+				svgClone.setAttribute("width", "512");
+				svgClone.setAttribute("height", "512");
 				const svgString = new XMLSerializer().serializeToString(svgClone);
 				const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
 				const url = URL.createObjectURL(blob);
@@ -175,12 +178,11 @@
 			const gray = new Float32Array(width * height);
 
 			for (let i = 0; i < gray.length; i++) {
-				const r = data[i * 4];
-				const g = data[i * 4 + 1];
-				const b = data[i * 4 + 2];
 				const a = data[i * 4 + 3];
-				// Transparent pixels are treated as white (background)
-				gray[i] = a < 10 ? 255 : 0.299 * r + 0.587 * g + 0.114 * b;
+				// Transparent = white (no dot). Non-transparent = fixed density target.
+				// Using 100 (~60% dot density) gives a visible dithered silhouette
+				// regardless of the logo's fill color brightness.
+				gray[i] = a < 10 ? 255 : 100;
 			}
 
 			const active: [number, number][] = [];
