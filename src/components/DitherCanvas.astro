@@ -51,7 +51,9 @@
 	interface DitheredLogo {
 		width: number;
 		height: number;
-		pixels: [number, number][];
+		// Flat array: [x0, y0, x1, y1, ...] — avoids nested arrays
+		pixels: Int16Array;
+		pixelCount: number;
 		color: string;
 	}
 
@@ -70,6 +72,7 @@
 		private startTime = 0;
 		private currentLogo: string | null = null;
 		private fadingOut = false;
+		private cleanupId = 0;
 		private resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
 		connectedCallback() {
@@ -115,8 +118,8 @@
 				try {
 					const dithered = await this.rasterizeAndDither(tpl, key);
 					this.logos.set(key, dithered);
-				} catch {
-					// Skip logos that fail to load
+				} catch (e) {
+					console.warn("DitherCanvas: failed to load logo", key, e);
 				}
 			}
 		}
@@ -126,11 +129,25 @@
 				const svgEl = tpl.content.querySelector("svg");
 				if (!svgEl) return reject(new Error("No SVG found"));
 
+				// Parse the viewBox to get the natural aspect ratio
+				const vb = svgEl.getAttribute("viewBox");
+				const vbParts = vb ? vb.split(/\s+/).map(Number) : [];
+				const vbW = vbParts[2] || 1;
+				const vbH = vbParts[3] || 1;
+				const svgAspect = vbW / vbH;
+
 				const svgClone = svgEl.cloneNode(true) as SVGElement;
 				svgClone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-				// Explicit dimensions ensure the Image loads with correct naturalWidth/Height
-				svgClone.setAttribute("width", "512");
-				svgClone.setAttribute("height", "512");
+				// Set explicit pixel dimensions preserving aspect ratio
+				const refSize = 512;
+				if (svgAspect >= 1) {
+					svgClone.setAttribute("width", String(refSize));
+					svgClone.setAttribute("height", String(Math.round(refSize / svgAspect)));
+				} else {
+					svgClone.setAttribute("height", String(refSize));
+					svgClone.setAttribute("width", String(Math.round(refSize * svgAspect)));
+				}
+
 				const svgString = new XMLSerializer().serializeToString(svgClone);
 				const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
 				const url = URL.createObjectURL(blob);
@@ -140,15 +157,16 @@
 					URL.revokeObjectURL(url);
 
 					const size = Math.min(this.canvas.width, this.canvas.height) * 0.6;
-					const aspect = img.naturalWidth / img.naturalHeight;
 					let w: number, h: number;
-					if (aspect >= 1) {
+					if (svgAspect >= 1) {
 						w = Math.round(size);
-						h = Math.round(size / aspect);
+						h = Math.round(size / svgAspect);
 					} else {
 						h = Math.round(size);
-						w = Math.round(size * aspect);
+						w = Math.round(size * svgAspect);
 					}
+
+					if (w < 1 || h < 1) return reject(new Error("Logo too small"));
 
 					const offscreen = document.createElement("canvas");
 					offscreen.width = w;
@@ -157,11 +175,12 @@
 					offCtx.drawImage(img, 0, 0, w, h);
 					const imageData = offCtx.getImageData(0, 0, w, h);
 
-					const pixels = this.floydSteinberg(imageData);
+					const result = this.floydSteinberg(imageData);
 					resolve({
 						width: w,
 						height: h,
-						pixels,
+						pixels: result.pixels,
+						pixelCount: result.count,
 						color: LOGO_COLORS[key] || "#ffffff",
 					});
 				};
@@ -173,27 +192,33 @@
 			});
 		}
 
-		private floydSteinberg(imageData: ImageData): [number, number][] {
-			const { width, height, data } = imageData;
-			const gray = new Float32Array(width * height);
+		private floydSteinberg(imageData: ImageData): { pixels: Int16Array; count: number } {
+			var width = imageData.width;
+			var height = imageData.height;
+			var data = imageData.data;
+			var gray = new Float32Array(width * height);
 
-			for (let i = 0; i < gray.length; i++) {
-				const a = data[i * 4 + 3];
+			for (var i = 0; i < gray.length; i++) {
+				var a = data[i * 4 + 3];
 				// Transparent = white (no dot). Non-transparent = fixed density target.
-				// Using 100 (~60% dot density) gives a visible dithered silhouette
-				// regardless of the logo's fill color brightness.
+				// 100/255 gives ~60% dot density for a visible dithered silhouette.
 				gray[i] = a < 10 ? 255 : 100;
 			}
 
-			const active: [number, number][] = [];
+			// Collect active pixel coordinates
+			var activeX: number[] = [];
+			var activeY: number[] = [];
 
-			for (let y = 0; y < height; y++) {
-				for (let x = 0; x < width; x++) {
-					const idx = y * width + x;
-					const oldVal = gray[idx];
-					const newVal = oldVal < 128 ? 0 : 255;
-					if (newVal === 0) active.push([x, y]);
-					const error = oldVal - newVal;
+			for (var y = 0; y < height; y++) {
+				for (var x = 0; x < width; x++) {
+					var idx = y * width + x;
+					var oldVal = gray[idx];
+					var newVal = oldVal < 128 ? 0 : 255;
+					if (newVal === 0) {
+						activeX.push(x);
+						activeY.push(y);
+					}
+					var error = oldVal - newVal;
 
 					if (x + 1 < width) gray[idx + 1] += error * 7 / 16;
 					if (y + 1 < height) {
@@ -204,25 +229,40 @@
 				}
 			}
 
-			// Shuffle for random reveal order
-			for (let i = active.length - 1; i > 0; i--) {
-				const j = Math.floor(Math.random() * (i + 1));
-				[active[i], active[j]] = [active[j], active[i]];
+			var count = activeX.length;
+
+			// Fisher-Yates shuffle with temp variable (no destructuring)
+			for (var i = count - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var tmpX = activeX[i];
+				var tmpY = activeY[i];
+				activeX[i] = activeX[j];
+				activeY[i] = activeY[j];
+				activeX[j] = tmpX;
+				activeY[j] = tmpY;
 			}
 
-			return active;
+			// Pack into flat Int16Array: [x0, y0, x1, y1, ...]
+			var pixels = new Int16Array(count * 2);
+			for (var i = 0; i < count; i++) {
+				pixels[i * 2] = activeX[i];
+				pixels[i * 2 + 1] = activeY[i];
+			}
+
+			return { pixels: pixels, count: count };
 		}
 
 		private showLogo(key: string) {
 			this.cancelAnimation();
+			this.cleanupId++;
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 			this.canvas.style.opacity = "1";
 			this.fadingOut = false;
 			this.revealedCount = 0;
 			this.currentLogo = key;
 
-			const logo = this.logos.get(key);
-			if (!logo) return;
+			var logo = this.logos.get(key);
+			if (!logo || logo.pixelCount === 0) return;
 
 			this.startTime = performance.now();
 			this.animationId = requestAnimationFrame((t) => this.animate(t));
@@ -233,18 +273,21 @@
 			this.fadingOut = true;
 			this.canvas.style.opacity = "0";
 
-			const cleanup = () => {
-				this.canvas.removeEventListener("transitionend", cleanup);
-				this.cancelAnimation();
-				this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-				this.canvas.style.opacity = "1";
-				this.fadingOut = false;
-				this.currentLogo = null;
-				this.revealedCount = 0;
-			};
-			this.canvas.addEventListener("transitionend", cleanup, { once: true });
+			var id = ++this.cleanupId;
+			var self = this;
 
-			// Fallback in case transitionend doesn't fire
+			function cleanup() {
+				// Only run if no newer show/hide has happened
+				if (self.cleanupId !== id) return;
+				self.cancelAnimation();
+				self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
+				self.canvas.style.opacity = "1";
+				self.fadingOut = false;
+				self.currentLogo = null;
+				self.revealedCount = 0;
+			}
+
+			this.canvas.addEventListener("transitionend", cleanup, { once: true });
 			setTimeout(cleanup, 500);
 		}
 
@@ -258,25 +301,26 @@
 		private animate(timestamp: number) {
 			if (!this.currentLogo || this.fadingOut) return;
 
-			const logo = this.logos.get(this.currentLogo);
+			var logo = this.logos.get(this.currentLogo);
 			if (!logo) return;
 
-			const elapsed = timestamp - this.startTime;
-			const duration = 1500;
-			const progress = Math.min(elapsed / duration, 1);
+			var elapsed = timestamp - this.startTime;
+			var duration = 1500;
+			var progress = Math.min(elapsed / duration, 1);
 			// Ease-out cubic
-			const eased = 1 - Math.pow(1 - progress, 3);
-			const targetCount = Math.floor(eased * logo.pixels.length);
+			var eased = 1 - Math.pow(1 - progress, 3);
+			var targetCount = Math.floor(eased * logo.pixelCount);
+			if (targetCount > logo.pixelCount) targetCount = logo.pixelCount;
 
-			const offsetX = Math.round((this.canvas.width - logo.width) / 2);
-			const offsetY = Math.round((this.canvas.height - logo.height) / 2);
+			var offsetX = Math.round((this.canvas.width - logo.width) / 2);
+			var offsetY = Math.round((this.canvas.height - logo.height) / 2);
 
 			this.ctx.fillStyle = logo.color;
 			this.ctx.globalAlpha = 0.18;
 
-			for (let i = this.revealedCount; i < targetCount; i++) {
-				const [x, y] = logo.pixels[i];
-				this.ctx.fillRect(offsetX + x, offsetY + y, 1, 1);
+			var px = logo.pixels;
+			for (var i = this.revealedCount; i < targetCount; i++) {
+				this.ctx.fillRect(offsetX + px[i * 2], offsetY + px[i * 2 + 1], 1, 1);
 			}
 			this.revealedCount = targetCount;
 
