@@ -10,15 +10,15 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 	<main class="landing">
 		<div class="left">
 			<h1 class="name">Aniruddh Srivastava</h1>
-			<p class="role">CS Honors @ Purdue · Incoming PM Intern @ Cloudflare · Systems, Formal Verification, FPGAs</p>
+			<p class="role">CS Honors @ <span data-dither="purdue">Purdue</span> · Incoming PM Intern @ <span data-dither="cloudflare">Cloudflare</span> · Systems, Formal Verification, FPGAs</p>
 		</div>
 
 		<div class="divider" aria-hidden="true"></div>
 
 		<div class="right">
 			<p class="bio">
-				Junior in CS Honors at Purdue with minors in Math, Physics, and ECE.
-				Incoming PM intern at Cloudflare on the Zero Trust team.
+				Junior in CS Honors at <span data-dither="purdue">Purdue</span> with minors in Math, Physics, and ECE.
+				Incoming PM intern at <span data-dither="cloudflare">Cloudflare</span> on the Zero Trust team.
 			</p>
 			<p class="bio">
 				Interested in systems programming, formal verification, and computer architecture.
@@ -114,6 +114,10 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 
 	.bio:last-child {
 		margin-bottom: 0;
+	}
+
+	[data-dither] {
+		cursor: text;
 	}
 
 	/* Webring */
