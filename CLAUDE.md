@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-Use `npm` as the package manager (not bun).
+Use `bun` as the package manager (not npm).
 
 ```bash
-npm run dev      # Start dev server
-npm run build    # Build for production
-npm run preview  # Preview production build
+bun run dev      # Start dev server
+bun run build    # Build for production
+bun run preview  # Preview production build
 ```
 
 ## Architecture
