@@ -2,7 +2,6 @@
 import Icon from "./Icon.astro";
 import type { iconPaths } from "./IconPaths";
 import { SITE_TITLE } from "../consts";
-// import ThemeToggle from './ThemeToggle.astro';
 
 interface Props {
 	hideNavLinks?: boolean;
@@ -113,14 +112,6 @@ const isCurrentPage = (href: string) => {
 					))
 				}
 			</div>
-
-			{
-				/* Theme toggle disabled - hardcoded to dark mode
-			<div class="theme-toggle">
-				<ThemeToggle />
-			</div>
-			*/
-			}
 		</div>
 	</div>
 </nav>
@@ -199,13 +190,9 @@ const isCurrentPage = (href: string) => {
 		border-radius: 4px;
 		padding: 0.5rem;
 		font-size: 1.5rem;
-		color: var(--gray-400);
-		background: var(--gray-900);
-		cursor: pointer;
-	}
-
-	.menu-button[aria-expanded="true"] {
 		color: var(--gray-0);
+		background: var(--accent-light);
+		cursor: pointer;
 	}
 
 	.menu-button[hidden] {
@@ -248,7 +235,7 @@ const isCurrentPage = (href: string) => {
 	}
 
 	.link[aria-current] {
-		color: var(--accent-regular);
+		color: var(--accent-strong);
 	}
 
 	.menu-footer {
@@ -280,12 +267,6 @@ const isCurrentPage = (href: string) => {
 	.social:hover,
 	.social:focus {
 		color: var(--gray-100);
-	}
-
-	.theme-toggle {
-		display: flex;
-		align-items: center;
-		height: calc(var(--icon-size) + 2 * var(--icon-padding));
 	}
 
 	@media (min-width: 50em) {
@@ -323,7 +304,6 @@ const isCurrentPage = (href: string) => {
 		}
 
 		.link[aria-current="page"] {
-			color: var(--accent-regular);
 			border-bottom-color: transparent;
 		}
 

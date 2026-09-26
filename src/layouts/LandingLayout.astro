@@ -21,12 +21,6 @@ const { title, description } = Astro.props;
 			<slot />
 		</div>
 
-		<script>
-			addEventListener("load", () =>
-				document.documentElement.classList.add("loaded"),
-			);
-		</script>
-
 		<style>
 			.landing-container {
 				min-height: 100vh;
