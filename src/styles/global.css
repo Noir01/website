@@ -9,46 +9,22 @@
 
 /* Global variables */
 :root {
-	/* Colors — light mode (inverted warm palette) */
-	--gray-0: #0c0c0b;
-	--gray-50: #161614;
-	--gray-100: #202020;
-	--gray-200: #2c2c2a;
-	--gray-300: #3c3c3a;
-	--gray-400: #686860;
-	--gray-500: #8a8a82;
-	--gray-600: #aaaaa0;
-	--gray-700: #c8c8be;
-	--gray-800: #e6e3da;
-	--gray-900: #f0ede4;
-	--gray-999-basis: 40, 43%, 97%;
-	--gray-999_40: hsla(var(--gray-999-basis), 0.4);
-	--gray-999: #f8f5ee;
+	/* One palette for the whole site. */
+	--gray-0: #263a79;
+	--gray-100: #282329;
+	--gray-200: #3a333a;
+	--gray-300: #514a50;
+	--gray-400: #655f65;
+	--gray-500: #80787c;
+	--gray-700: #c7bfba;
+	--gray-800: #ded8d0;
+	--gray-900: #eee9df;
+	--gray-999: #f5f2e9;
 
-	--accent-regular: #cfb991;
-	--accent-light: #e8d0a0;
-	--accent-dark: #8b7045;
-	--accent-overlay: rgba(207, 185, 145, 0.12);
-	--accent-subtle-overlay: rgba(207, 185, 145, 0.08);
-	--accent-text-over: var(--gray-999);
-
-	--link-color: var(--accent-regular);
-
-	/* Gradients */
-	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
-	--gradient-accent: linear-gradient(150deg, var(--accent-light), var(--accent-regular), var(--accent-dark));
-	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
-
-	/* Shadows */
-	--shadow-sm:
-		0px 6px 3px rgba(9, 11, 17, 0.01), 0px 4px 2px rgba(9, 11, 17, 0.01),
-		0px 2px 2px rgba(9, 11, 17, 0.02), 0px 0px 1px rgba(9, 11, 17, 0.03);
-	--shadow-md:
-		0px 28px 11px rgba(9, 11, 17, 0.01), 0px 16px 10px rgba(9, 11, 17, 0.03),
-		0px 7px 7px rgba(9, 11, 17, 0.05), 0px 2px 4px rgba(9, 11, 17, 0.06);
-	--shadow-lg:
-		0px 62px 25px rgba(9, 11, 17, 0.01), 0px 35px 21px rgba(9, 11, 17, 0.05),
-		0px 16px 16px rgba(9, 11, 17, 0.1), 0px 4px 9px rgba(9, 11, 17, 0.12);
+	--accent-regular: #ca443c;
+	--accent-strong: #b93c36; /* Legible small text on cream */
+	--accent-light: #f8eaa5;
+	--link-color: var(--gray-0);
 
 	/* Text Sizes */
 	--text-sm: 0.875rem;
@@ -67,44 +43,6 @@
 
 	/* Transitions */
 	--theme-transition: 0.2s ease-in-out;
-}
-
-:root.theme-dark {
-	--gray-0: #f8f5ee;
-	--gray-50: #f0ede4;
-	--gray-100: #e6e3da;
-	--gray-200: #c8c8be;
-	--gray-300: #aaaaa0;
-	--gray-400: #8a8a82;
-	--gray-500: #686860;
-	--gray-600: #3c3c3a;
-	--gray-700: #2c2c2a;
-	--gray-800: #202020;
-	--gray-900: #161614;
-	--gray-999-basis: 40, 18%, 5%;
-	--gray-999: #0c0c0b;
-
-	--accent-regular: #cfb991;
-	--accent-light: #8b7045;
-	--accent-dark: #e8d0a0;
-	--accent-overlay: rgba(207, 185, 145, 0.12);
-	--accent-subtle-overlay: rgba(207, 185, 145, 0.08);
-	--accent-text-over: var(--gray-999);
-
-	--link-color: var(--accent-regular);
-
-	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
-	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
-
-	--shadow-sm:
-		0px 6px 3px rgba(255, 255, 255, 0.01), 0px 4px 2px rgba(255, 255, 255, 0.01),
-		0px 2px 2px rgba(255, 255, 255, 0.02), 0px 0px 1px rgba(255, 255, 255, 0.03);
-	--shadow-md:
-		0px 28px 11px rgba(255, 255, 255, 0.01), 0px 16px 10px rgba(255, 255, 255, 0.03),
-		0px 7px 7px rgba(255, 255, 255, 0.05), 0px 2px 4px rgba(255, 255, 255, 0.06);
-	--shadow-lg:
-		0px 62px 25px rgba(255, 255, 255, 0.01), 0px 35px 21px rgba(255, 255, 255, 0.05),
-		0px 16px 16px rgba(255, 255, 255, 0.1), 0px 4px 9px rgba(255, 255, 255, 0.12);
 }
 
 html,
