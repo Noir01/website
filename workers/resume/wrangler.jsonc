@@ -1,0 +1,20 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "resume-pdf",
+  "main": "./src/index.js",
+  "compatibility_date": "2026-03-12",
+  "workers_dev": false,
+  "preview_urls": false,
+  "r2_buckets": [
+    {
+      "binding": "RESUME_BUCKET",
+      "bucket_name": "resume"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "srivastava.dev/resume*",
+      "zone_name": "srivastava.dev"
+    }
+  ]
+}

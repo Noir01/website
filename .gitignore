@@ -1,5 +1,7 @@
 # build output
 dist/
+# Keep resume revisions out of this public repository and Git history.
+*.pdf
 # generated types
 .astro/
 # wrangler local state and build artifacts
