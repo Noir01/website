@@ -2,6 +2,11 @@
 
 This file provides guidance to coding agents when working with code in this repository.
 
+## Git publishing
+
+- Ask Noir for explicit permission before **every update to remote `main`**, whether by push, PR merge, or another method. Requests to implement, deploy, commit, or push a branch do not grant that permission.
+- You may push non-main branches without asking; leave remote `main` unchanged until Noir approves the update.
+
 ## Commands
 
 Use `bun` as the package manager (not npm).
