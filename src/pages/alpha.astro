@@ -29,7 +29,7 @@ import MusicPlayer from "../components/MusicPlayer.astro";
            Use <em> for navy italics, <strong> for emphasis, and <a href="…"> for links. -->
       <article aria-label="About me">
         <div class="intro-column">
-          <p class="opening">Hello <em><button type="button" class="hello-note" aria-label="Play a high E note">♩</button></em></p>
+          <p class="opening">Hello <em><span class="hello-note" role="button" tabindex="0" aria-label="Play a high E note">♩</span></em></p>
           <p>
             I'm an adult, technically. I grew up in India and now study at
             <a href="https://www.cs.purdue.edu/"> Purdue</a>. I like to dabble
@@ -63,7 +63,7 @@ import MusicPlayer from "../components/MusicPlayer.astro";
       </article>
       <script>
         // A short E6 on each activation. Create audio only after a user gesture.
-        const note = document.querySelector<HTMLButtonElement>(".hello-note");
+        const note = document.querySelector<HTMLElement>(".hello-note");
         let audio: AudioContext | undefined;
 
         note?.addEventListener("click", async () => {
@@ -74,9 +74,10 @@ import MusicPlayer from "../components/MusicPlayer.astro";
           const volume = audio.createGain();
           oscillator.type = "sine";
           oscillator.frequency.value = 1318.5102276514797; // E6
-          // Gentle attack and decay prevent clicks and keep the surprise quiet.
+          // Audible but brief, with a smooth attack and a short held note.
           volume.gain.setValueAtTime(0, now);
-          volume.gain.linearRampToValueAtTime(0.1, now + 0.015);
+          volume.gain.linearRampToValueAtTime(0.3, now + 0.015);
+          volume.gain.setValueAtTime(0.3, now + 0.12);
           volume.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
           volume.gain.linearRampToValueAtTime(0, now + 0.45);
           oscillator.connect(volume);
@@ -87,6 +88,13 @@ import MusicPlayer from "../components/MusicPlayer.astro";
           };
           oscillator.start(now);
           oscillator.stop(now + 0.45);
+        });
+        // A plain text span has no native button chrome; restore keyboard activation.
+        note?.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            if (!event.repeat) note.click();
+          }
         });
       </script>
       <style>
