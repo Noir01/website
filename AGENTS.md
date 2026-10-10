@@ -21,11 +21,14 @@ bun run preview  # Preview production build
 
 Personal portfolio site (srivastava.dev, also accessible at noir.ac) built with **Astro 7**.
 
-### Layouts
+### Homepage and layouts
 
-Two layouts in `src/layouts/`:
-- **`BaseLayout.astro`**: Includes Nav and Footer (not currently used by a page).
-- **`LandingLayout.astro`**: Used for `index.astro`. No footer, locked to viewport height on desktop.
+- **`src/pages/index.astro`** owns the homepage shell directly: it imports `MainHead`, `Nav`, and `MusicPlayer`, and contains its own markup, styles, and piano-note interaction. Edit this file for homepage copy and layout changes; changes to the layouts below do not affect it.
+- The homepage uses two explicit text columns on desktop and stacks them on mobile. It scrolls naturally rather than locking to the viewport height.
+
+Two legacy layouts remain in `src/layouts/`; neither is currently used by a page:
+- **`BaseLayout.astro`**: Includes Nav and Footer.
+- **`LandingLayout.astro`**: No footer, locked to viewport height on desktop.
 
 ### Theming
 
