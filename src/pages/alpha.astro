@@ -62,32 +62,33 @@ import MusicPlayer from "../components/MusicPlayer.astro";
         </div>
       </article>
       <script>
-        // A short E6 on each activation. Create audio only after a user gesture.
+        // Sampled piano E6 with its natural ringing decay, one strike per click.
         const note = document.querySelector<HTMLElement>(".hello-note");
         let audio: AudioContext | undefined;
+        let piano: Promise<AudioBuffer> | undefined;
 
         note?.addEventListener("click", async () => {
           audio ??= new AudioContext();
           await audio.resume();
-          const now = audio.currentTime;
-          const oscillator = audio.createOscillator();
-          const volume = audio.createGain();
-          oscillator.type = "sine";
-          oscillator.frequency.value = 1318.5102276514797; // E6
-          // Audible but brief, with a smooth attack and a short held note.
-          volume.gain.setValueAtTime(0, now);
-          volume.gain.linearRampToValueAtTime(0.3, now + 0.015);
-          volume.gain.setValueAtTime(0.3, now + 0.12);
-          volume.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-          volume.gain.linearRampToValueAtTime(0, now + 0.45);
-          oscillator.connect(volume);
-          volume.connect(audio.destination);
-          oscillator.onended = () => {
-            oscillator.disconnect();
-            volume.disconnect();
-          };
-          oscillator.start(now);
-          oscillator.stop(now + 0.45);
+          // Cache decoding; the bundled D-sharp sample is shifted up one semitone.
+          piano ??= fetch("/audio/piano-ds6.mp3")
+            .then((response) => {
+              if (!response.ok) throw new Error("Piano sample unavailable");
+              return response.arrayBuffer();
+            })
+            .then((bytes) => audio!.decodeAudioData(bytes));
+          try {
+            const buffer = await piano;
+            const strike = audio.createBufferSource();
+            strike.buffer = buffer;
+            strike.playbackRate.value = 2 ** (1 / 12); // D-sharp 6 → E6
+            strike.connect(audio.destination);
+            strike.onended = () => strike.disconnect();
+            strike.start(); // Full recorded decay; subsequent clicks can overlap.
+          } catch (error) {
+            piano = undefined; // Allow a later click to retry a failed load.
+            console.warn("Could not play the piano note", error);
+          }
         });
         // A plain text span has no native button chrome; restore keyboard activation.
         note?.addEventListener("keydown", (event) => {
