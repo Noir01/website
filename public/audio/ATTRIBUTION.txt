@@ -1,0 +1,8 @@
+piano-ds6.mp3: Salamander Grand Piano, Yamaha C5.
+Author: Alexander Holm.
+License: Creative Commons Attribution 3.0 (CC BY 3.0).
+https://creativecommons.org/licenses/by/3.0/
+Source: https://github.com/Tonejs/audio/tree/master/salamander
+Sample: https://tonejs.github.io/audio/salamander/Ds6.mp3
+The original sample is bundled unchanged; playback shifts it up one semitone to E6.
+This is not audio from Kanye West's Runaway recording.
