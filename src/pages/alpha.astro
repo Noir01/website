@@ -1,19 +1,27 @@
 ---
-import MainHead from '../components/MainHead.astro';
-import Nav from '../components/Nav.astro';
-import MusicPlayer from '../components/MusicPlayer.astro';
+import { Code } from "astro:components";
+import MainHead from "../components/MainHead.astro";
+import Nav from "../components/Nav.astro";
+import MusicPlayer from "../components/MusicPlayer.astro";
 ---
+
 <html lang="en">
   <head>
     <MainHead title="Aniruddh Srivastava — intro study" />
     <meta name="robots" content="noindex, nofollow" />
-    <link rel="preload" href="/fonts/eb-garamond/regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link
+      rel="preload"
+      href="/fonts/eb-garamond/regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
   </head>
   <body>
     <Nav hideNavLinks />
     <main>
       <header>
-        <p class="eyebrow">A brief introduction</p>
+        <!-- <p class="eyebrow">A brief introduction</p> -->
         <h1>Aniruddh Srivastava<span class="period">.</span></h1>
       </header>
       <!-- Edit your intro in the two column blocks below; move <p> blocks between them
@@ -21,57 +29,179 @@ import MusicPlayer from '../components/MusicPlayer.astro';
            Use <em> for navy italics, <strong> for emphasis, and <a href="…"> for links. -->
       <article aria-label="About me">
         <div class="intro-column">
-          <p class="opening">Online, I go by <em>Noir</em>.</p>
+          <p class="opening">Hello <em>♩</em></p>
           <p>
-            Senior in CS at <a href="https://www.cs.purdue.edu/">Purdue</a> with minors
-            in Math, Physics, and ECE. Interested in product management alongside
-            systems programming and formal verification.
+            I'm an adult, technically. I grew up in India and now study at
+            <a href="https://www.cs.purdue.edu/">Purdue</a>. I like to dabble in
+            formal methods, and work on <a
+              href="https://github.com/gibbon-compiler/gibbon">Gibbon</a
+            >. I've interned at <a href="https://www.cloudflare.com/"
+              >Cloudflare</a
+            > and am always down to chat about making the internet better.
           </p>
         </div>
         <div class="intro-column">
           <p>
-            Interested in systems programming, formal verification, and computer
-            architecture. Currently researching LLM-assisted theorem proving in
-            Rocq and Lean.
+            Ask me about <a href="https://adventofcode.com/">Advent of Code</a> and
+            <a href="https://en.wikipedia.org/wiki/Cities:_Skylines"
+              >Cities Skylines</a
+            >.
           </p>
-          <p>Annual <a href="https://adventofcode.com/">Advent of Code</a> participant.</p>
+          <p>
+            Take a look at my <a href="/reading">reading list</a> and at the bottom
+            right corner of your screen to know me more.
+            <!-- this part should probably not appear if user is on mobile and cannot
+             see the music player widget -->
+          </p>
+          <div class="contact-code">
+            <Code
+              code={'reachMe = firstName <> "@" <> lastName <> ".dev"'}
+              lang="haskell"
+              theme="github-light"
+            />
+          </div>
+          <div class="music-shell"><MusicPlayer /></div>
         </div>
       </article>
-      <p class="draft">Typography study · production homepage unchanged</p>
-    </main>
-    <div class="music-shell"><MusicPlayer /></div>
-  </body>
+      <style>
+        @font-face {
+          font-family: "EB Garamond";
+          src: url("/fonts/eb-garamond/regular.ttf") format("truetype");
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: "EB Garamond";
+          src: url("/fonts/eb-garamond/italic.ttf") format("truetype");
+          font-style: italic;
+          font-weight: 400;
+          font-display: swap;
+        }
+        /* Reading width and outer spacing. */
+        main {
+          width: min(100% - 3rem, 960px);
+          margin: 0 auto;
+          padding: 0.25rem 0 5rem;
+        }
+        header {
+          margin-bottom: 2rem;
+        }
+        .eyebrow {
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.15em;
+          color: var(--gray-400);
+          margin-bottom: 1rem;
+        }
+        h1 {
+          font-family: "EB Garamond", Georgia, serif;
+          font-weight: 400;
+          font-size: clamp(2.7rem, 5vw, 4.1rem);
+          letter-spacing: -0.035em;
+          line-height: 1.08;
+          color: var(--gray-0);
+        }
+        .period {
+          color: var(--accent-strong);
+        }
+        /* Intro type size, line spacing, and inline treatments. */
+        /* Two explicit columns, not newspaper flow: paragraphs stay together. */
+        article {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: clamp(2rem, 5vw, 4rem);
+          font-family: "EB Garamond", Georgia, serif;
+          font-size: clamp(1.3rem, 2vw, 1.6rem);
+          line-height: 1.38;
+          letter-spacing: -0.012em;
+          color: #302e36;
+        }
+        article p {
+          margin-bottom: 1.1rem;
+          text-wrap: pretty;
+        }
+        .intro-column p:last-child {
+          margin-bottom: 0;
+        }
+        article .opening {
+          font-size: 1.15em;
+          margin-bottom: 1.25rem;
+        }
+        article em {
+          color: var(--gray-0);
+        }
+        article strong {
+          font-weight: 600;
+        }
+        article a {
+          color: inherit;
+          text-decoration-color: var(--accent-strong);
+          text-decoration-thickness: 1px;
+          text-underline-offset: 0.13em;
+        }
+        article a:hover {
+          color: var(--accent-strong);
+        }
+        article a:focus-visible {
+          outline: 2px solid var(--accent-strong);
+          outline-offset: 4px;
+        }
+        .draft {
+          font-size: 9px;
+          color: var(--gray-400);
+          margin-top: 1.5rem;
+        }
+        /* Mobile: allow the page to grow and keep music below the copy. */
+        @media (max-width: 50em) {
+          :global(nav) {
+            margin-bottom: 1.75rem;
+          }
+          main {
+            padding-top: 0.25rem;
+            padding-bottom: 2rem;
+          }
+          .music-shell {
+            margin: 0 1.5rem 2rem;
+          }
+          .music-shell :global(music-player) {
+            position: static;
+            display: block;
+          }
+          header {
+            margin-bottom: 1.6rem;
+          }
+          article {
+            grid-template-columns: 1fr;
+            gap: 1.1rem;
+            font-size: 22px;
+            line-height: 1.4;
+          }
+          article .opening {
+            font-size: 25px;
+          }
+          .draft {
+            font-size: 9px;
+            line-height: 1.7;
+          }
+        }
+        .contact-code {
+          min-width: 0;
+        }
+
+        .contact-code :global(pre) {
+          background: transparent !important;
+          padding: 0;
+          overflow-x: auto;
+          font-family: var(--font-body);
+          font-size: 0.875rem;
+          line-height: 1.6;
+        }
+
+        .contact-code :global(code) {
+          font-family: inherit;
+        }
+      </style>
+    </main></body
+  >
 </html>
-<style>
-  @font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond/regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
-  @font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond/italic.ttf') format('truetype'); font-style: italic; font-weight: 400; font-display: swap; }
-  /* Reading width and outer spacing. */
-  main { width: min(100% - 3rem, 960px); margin: 0 auto; padding: 0.25rem 0 5rem; }
-  header { margin-bottom: 2rem; }
-  .eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: .15em; color: var(--gray-400); margin-bottom: 1rem; }
-  h1 { font-family: 'EB Garamond', Georgia, serif; font-weight: 400; font-size: clamp(2.7rem, 5vw, 4.1rem); letter-spacing: -.035em; line-height: 1.08; color: var(--gray-0); }
-  .period { color: var(--accent-strong); }
-  /* Intro type size, line spacing, and inline treatments. */
-  /* Two explicit columns, not newspaper flow: paragraphs stay together. */
-  article { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 5vw, 4rem); font-family: 'EB Garamond', Georgia, serif; font-size: clamp(1.3rem, 2vw, 1.6rem); line-height: 1.38; letter-spacing: -.012em; color: #302e36; }
-  article p { margin-bottom: 1.1rem; text-wrap: pretty; }
-  .intro-column p:last-child { margin-bottom: 0; }
-  article .opening { font-size: 1.15em; margin-bottom: 1.25rem; }
-  article em { color: var(--gray-0); }
-  article strong { font-weight: 600; }
-  article a { color: inherit; text-decoration-color: var(--accent-strong); text-decoration-thickness: 1px; text-underline-offset: .13em; }
-  article a:hover { color: var(--accent-strong); }
-  article a:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 4px; }
-  .draft { font-size: 9px; color: var(--gray-400); margin-top: 1.5rem; }
-  /* Mobile: allow the page to grow and keep music below the copy. */
-  @media (max-width: 50em) {
-    :global(nav) { margin-bottom: 1.75rem; }
-    main { padding-top: .25rem; padding-bottom: 2rem; }
-    .music-shell { margin: 0 1.5rem 2rem; }
-    .music-shell :global(music-player) { position: static; display: block; }
-    header { margin-bottom: 1.6rem; }
-    article { grid-template-columns: 1fr; gap: 1.1rem; font-size: 22px; line-height: 1.4; }
-    article .opening { font-size: 25px; }
-    .draft { font-size: 9px; line-height: 1.7; }
-  }
-</style>
