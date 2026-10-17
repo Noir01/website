@@ -88,6 +88,10 @@ import { SPOTIFY_API, LASTFM_API } from "../consts";
 		color: var(--gray-200);
 	}
 
+	.vinyl {
+		flex-shrink: 0;
+	}
+
 	.vinyl svg {
 		display: block;
 		color: var(--gray-500);
@@ -117,6 +121,7 @@ import { SPOTIFY_API, LASTFM_API } from "../consts";
 		flex-direction: column;
 		gap: 0.1rem;
 		font-size: var(--text-sm);
+		min-width: 0;
 		max-width: 200px;
 	}
 
@@ -140,20 +145,26 @@ import { SPOTIFY_API, LASTFM_API } from "../consts";
 		text-overflow: ellipsis;
 	}
 
-	@media (max-width: 50em) {
+	@media (width < 60em) {
 		music-player {
-			bottom: 1rem;
-			right: 1rem;
+			position: static;
+			display: block;
+		}
+
+		.widget {
+			width: fit-content;
+			max-width: 100%;
 		}
 
 		.track-info {
-			max-width: 140px;
+			max-width: none;
+			font-size: 1rem;
 		}
-	}
 
-	@media (max-width: 30em) {
-		.track-info {
-			display: none;
+		.song,
+		.artist {
+			white-space: normal;
+			overflow-wrap: anywhere;
 		}
 	}
 </style>

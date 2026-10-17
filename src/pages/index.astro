@@ -48,25 +48,25 @@ import MusicPlayer from "../components/MusicPlayer.astro";
             > and am always down to chat about making the internet better.
           </p>
         </div>
-        <div class="intro-column">
+        <div class="intro-column details-column">
           <p>
             Ask me about <a href="https://adventofcode.com/">Advent of Code</a> and
             <a href="https://en.wikipedia.org/wiki/Cities:_Skylines">
               Cities Skylines</a
             >.
           </p>
-          <p>
-            <!-- Reading list is a separate project; restore this link when ready.
-            Take a look at my <a href="/reading">reading list</a> and -->
-            Check out what I'm listening to.
-          </p>
           <div class="contact-code">
             <Code
-              code={'reachMe = firstName <> "@" <> lastName <> ".dev"'}
+              code={'reachMe =\n  firstName <> "@" <> lastName <> ".dev"'}
               lang="haskell"
               theme="github-light"
             />
           </div>
+          <p class="listening-prompt">
+            <!-- Reading list is a separate project; restore this link when ready.
+            Take a look at my <a href="/reading">reading list</a> and -->
+            Check out what I'm listening to.
+          </p>
           <div class="music-shell"><MusicPlayer /></div>
         </div>
       </article>
@@ -169,6 +169,10 @@ import MusicPlayer from "../components/MusicPlayer.astro";
         .intro-column {
           min-width: 0;
         }
+        .details-column {
+          display: flex;
+          flex-direction: column;
+        }
         article p {
           margin-bottom: 1.1rem;
           text-wrap: pretty;
@@ -220,21 +224,15 @@ import MusicPlayer from "../components/MusicPlayer.astro";
           color: var(--gray-400);
           margin-top: 1.5rem;
         }
-        /* Mobile: allow the page to grow and keep music below the copy. */
-        @media (max-width: 50em) {
-          :global(nav) {
-            margin-bottom: 1.75rem;
-          }
+        /* Keep phones in one column in portrait and landscape. */
+        @media (width < 60em) {
           main {
+            width: min(100% - 3rem, 42rem);
             padding-top: 0.25rem;
-            padding-bottom: 2rem;
+            padding-bottom: 2.5rem;
           }
-          .music-shell {
-            margin: 0 1.5rem 2rem;
-          }
-          .music-shell :global(music-player) {
-            position: static;
-            display: block;
+          article .listening-prompt {
+            margin-bottom: 0.75rem;
           }
           header {
             margin-bottom: 1.6rem;
@@ -255,12 +253,15 @@ import MusicPlayer from "../components/MusicPlayer.astro";
         }
         .contact-code {
           min-width: 0;
+          /* Keep the desktop contact line below the listening sentence. */
+          order: 1;
         }
 
         .contact-code :global(pre) {
           background: transparent !important;
           padding: 0;
           overflow-x: auto;
+          white-space: normal;
           font-family: var(--font-body);
           font-size: 0.875rem;
           line-height: 1.6;
@@ -268,6 +269,17 @@ import MusicPlayer from "../components/MusicPlayer.astro";
 
         .contact-code :global(code) {
           font-family: inherit;
+        }
+
+        @media (width < 60em) {
+          .contact-code {
+            order: 0;
+            margin-bottom: 1.5rem;
+          }
+          .contact-code :global(pre) {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+          }
         }
       </style>
     </main></body
