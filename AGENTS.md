@@ -25,6 +25,7 @@ Personal portfolio site (srivastava.dev, also accessible at noir.ac) built with 
 
 - **`src/pages/index.astro`** owns the homepage shell directly: it imports `MainHead`, `Nav`, and `MusicPlayer`, and contains its own markup, styles, and piano-note interaction. Edit this file for homepage copy and layout changes; changes to the layouts below do not affect it.
 - The homepage uses two explicit text columns on desktop and stacks them on mobile. It scrolls naturally rather than locking to the viewport height.
+- Below 60em, the intro stays in one column, including phone landscape. The contact code wraps and comes before the listening sentence and music widget so track length cannot push it down. The homepage header shows social links directly at every screen size; it has no mobile menu.
 
 Two legacy layouts remain in `src/layouts/`; neither is currently used by a page:
 - **`BaseLayout.astro`**: Includes Nav and Footer.
@@ -43,13 +44,13 @@ Two legacy layouts remain in `src/layouts/`; neither is currently used by a page
 
 ### Music Player Widget
 
-`MusicPlayer.astro` is a web component (`<music-player>`) rendered on `index.astro`, fixed to the bottom-right corner.
+`MusicPlayer.astro` is a web component (`<music-player>`) rendered on `index.astro`, fixed to the bottom-right corner on desktop and placed below the listening sentence below 60em.
 
 - **APIs:** Primary: `https://spotify.noir.ac` — returns `{ song, artist, album, url, playing }`. Fallback: `https://lastfm.noir.ac` — returns `{ name, artist, album, url, image, nowPlaying }`. The Last.fm API is used when Spotify is not actively playing.
 - **Behavior:** Fetches Spotify first; if not playing or unreachable, falls back to Last.fm. Polls every 60s. Shows "Now playing" or "Was listening to" with song/artist. Hides silently if both APIs are unreachable or return no track data.
 - **Icon:** Vinyl record SVG from [SVGRepo](https://www.svgrepo.com/svg/104707/vinyl), inline in the component. Uses `currentColor` for the disc/tonearm and `--accent-regular` for the center dot.
 - **Animation:** Subtle opacity pulse when `playing: true`, static when idle.
-- **Responsive:** Track info text hidden below 30em; widget compacts at 50em.
+- **Responsive:** Track info stays visible on phones. Below 60em, the widget flows with the page, aligns with the copy, and wraps long track and artist names.
 - **No album art** by design.
 
 ## Landing Page Personalization Ideas
