@@ -12,7 +12,7 @@ const {
 	description = "Aniruddh Srivastava is a CS student at Purdue University interested in systems programming, formal verification, and product management.",
 } = Astro.props;
 
-const canonicalUrl = Astro.url.href;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
 
 const schema = {
 	"@context": "https://schema.org",
@@ -75,6 +75,19 @@ const schema = {
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>
+<link rel="canonical" href={canonicalUrl} />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Aniruddh Srivastava" />
+<meta property="og:title" content={title} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={new URL("/og.png", Astro.site).href} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Aniruddh Srivastava. CS student at Purdue · formal methods · systems. srivastava.dev" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL("/og.png", Astro.site).href} />
 
 <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
