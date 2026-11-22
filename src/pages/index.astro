@@ -189,6 +189,7 @@ import MusicPlayer from "../components/MusicPlayer.astro";
         }
         /* Secret note: visually identical to the original glyph, no hover cue. */
         .hello-note {
+          position: relative;
           appearance: none;
           border: 0;
           background: none;
@@ -198,6 +199,15 @@ import MusicPlayer from "../components/MusicPlayer.astro";
           color: inherit;
           cursor: inherit;
           vertical-align: baseline;
+        }
+        .hello-note::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: max(100%, 44px);
+          height: max(100%, 44px);
+          transform: translate(-50%, -50%);
         }
         .hello-note:focus-visible {
           outline: 1px solid currentColor;
