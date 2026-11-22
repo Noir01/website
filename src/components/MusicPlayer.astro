@@ -102,8 +102,10 @@ import { SPOTIFY_API, LASTFM_API } from "../consts";
 		color: var(--gray-300);
 	}
 
-	music-player[data-playing="true"] .vinyl svg {
-		animation: pulse 2s ease-in-out infinite;
+	@media (prefers-reduced-motion: no-preference) {
+		music-player[data-playing="true"] .vinyl svg {
+			animation: pulse 2s ease-in-out infinite;
+		}
 	}
 
 	@keyframes pulse {
