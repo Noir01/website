@@ -67,11 +67,13 @@ import { SPOTIFY_API, LASTFM_API } from "../consts";
 		bottom: 1.5rem;
 		right: 1.5rem;
 		z-index: 10;
+		visibility: hidden;
 		opacity: 0;
 		transition: opacity 0.3s ease-in-out;
 	}
 
 	music-player[data-loaded] {
+		visibility: visible;
 		opacity: 1;
 	}
 
