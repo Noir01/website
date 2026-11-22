@@ -1,9 +1,9 @@
 # robots.txt for srivastava.dev / noir.ac
-# Policy: search engines welcome, AI training crawlers are not.
+# Policy: search engines and AI answers welcome, AI training crawlers are not.
 # See: https://contentsignals.org/ and RFC 9309.
 
 User-agent: *
-Content-Signal: search=yes, ai-train=no, ai-input=no
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
 # --- AI training crawlers: disallowed ---
@@ -44,9 +44,6 @@ Disallow: /
 User-agent: cohere-ai
 Disallow: /
 
-User-agent: PerplexityBot
-Disallow: /
-
 User-agent: AI2Bot
 Disallow: /
 
@@ -62,6 +59,15 @@ Disallow: /
 # --- AI search surfacing (user-triggered or citation-linking): allowed ---
 
 User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
 Allow: /
 
 User-agent: ChatGPT-User
